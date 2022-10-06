@@ -1,0 +1,7 @@
+---
+- name: Install OS Packages if missing
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ os_packages }}"
+  become: true

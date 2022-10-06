@@ -1,0 +1,11 @@
+- name: Load default values
+  ansible.builtin.include_vars:
+    file: defaults.yml
+
+- name: "Load {{ ansible_architecture }} specific values"
+  ansible.builtin.include_vars:
+    file: "arch/{{ ansible_architecture }}.yml"
+
+- name: "Load {{ ansible_system }} specific values"
+  ansible.builtin.include_vars:
+    file: "os/{{ ansible_system }}.yml"

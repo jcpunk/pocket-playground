@@ -1,0 +1,35 @@
+---
+# this should be a file somewhere rather than a cluster resource?
+- name: Set the default PodSecurityConfiguration for the whole cluster
+  kubernetes.core.k8s:
+    state: present
+    resource_definition:
+      apiVersion: apiserver.config.k8s.io/v1
+      kind: AdmissionConfiguration
+      plugins:
+        - name: PodSecurity
+          configuration:
+            apiVersion: pod-security.admission.config.k8s.io/v1
+            kind: PodSecurityConfiguration
+            defaults:
+              enforce: "privileged"
+              enforce-version: "latest"
+              audit: "baseline"
+              audit-version: "latest"
+              warn: "restricted"
+              warn-version: "latest"
+  when:
+    - kubernetes_pod_security_defaults_set | bool
+
+- name: Set the PodSecurityConfiguration for the kube-system
+  kubernetes.core.k8s:
+    state: present
+    resource_definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: kube-system
+        labels:
+          pod-security.kubernetes.io/enforce: privileged
+          pod-security.kubernetes.io/audit: privileged
+          pod-security.kubernetes.io/warn: privileged

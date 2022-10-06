@@ -1,0 +1,16 @@
+---
+- name: "Extract {{ helm_binary_name }}-{{ helm_requested_version.stdout }} from {{ helm_home }}/archive/{{ helm_ver_bin }}.tar.gz"
+  ansible.builtin.unarchive:
+    src: "{{ helm_home }}/archive/{{ helm_ver_bin }}.tar.gz"
+    dest: "{{ dune_daq_bin_path | expanduser }}"
+    creates: "{{ helm_binary_name }}-{{ helm_requested_version.stdout }}"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    extra_opts:
+      - --transform
+      - "s,{{ helm_binary_name }},{{ helm_binary_name }}-{{ helm_requested_version.stdout }},"
+      - --strip-components=1
+      - "{{ ansible_system | lower }}-{{ go_arch }}/helm"
+    remote_src: true
+  vars:
+    helm_ver_bin: "{{ helm_binary_name }}-{{ helm_requested_version.stdout }}-{{ ansible_system | lower }}-{{ go_arch }}"

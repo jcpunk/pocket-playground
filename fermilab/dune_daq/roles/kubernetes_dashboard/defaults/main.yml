@@ -1,0 +1,22 @@
+---
+kubernetes_dashboard_helm_repo_name: kubernetes-dashboard
+kubernetes_dashboard_helm_chart_name: kubernetes-dashboard
+kubernetes_dashboard_helm_release_name: kubernetes-dashboard
+
+kubernetes_dashboard_ensure: present
+kubernetes_dashboard_helm_version: NULL
+kubernetes_dashboard_create_namespace: "yes"
+kubernetes_dashboard_namespace: kubernetes-dashboard
+kubernetes_dashboard_metrics_scraper_enabled: "true"
+kubernetes_dashboard_enable_skip_login: "true"
+
+kubernetes_dashboard_helm_make_ro_role: "false"
+
+kubernetes_dashboard_set_pod_security_admission: true
+kubernetes_dashboard_pod_security_enforce: restricted
+kubernetes_dashboard_pod_security_audit: restricted
+kubernetes_dashboard_pod_security_warn: restricted
+
+kubernetes_dashboard_prometheus_values:
+  serviceMonitor:
+    enabled: true

@@ -1,0 +1,25 @@
+---
+- name: Make directory to store tigera_operator files
+  ansible.builtin.file:
+    path: "{{ dune_daq_conf_path | expanduser }}/tigera_operator"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+
+- name: "Install helm package {{ tigera_operator_helm_repo_name }}/{{ tigera_operator_helm_chart_name }} {{ tigera_operator_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ tigera_operator_helm_release_name }}"
+    chart_ref: "{{ tigera_operator_helm_repo_name }}/{{ tigera_operator_helm_chart_name }}"
+    namespace: "{{ tigera_operator_namespace }}"
+    chart_version: "{{ tigera_operator_helm_version }}"
+    create_namespace: "{{ tigera_operator_create_namespace }}"
+    state: present
+    values:
+      installation: "{{ tigera_operator_installation_values }}"
+
+- name: set Pod Security Admission
+  ansible.builtin.include_tasks: pod_security_admission.yml
+  when:
+    - tigera_operator_set_pod_security_admission | bool

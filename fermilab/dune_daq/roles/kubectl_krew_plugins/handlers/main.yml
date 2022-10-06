@@ -1,0 +1,7 @@
+---
+- name: Ensure krew responds to trivial command
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/{{ kubectl_binary_name }}"
+      - krew
+      - list

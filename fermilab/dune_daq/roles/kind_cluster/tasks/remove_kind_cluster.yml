@@ -1,0 +1,20 @@
+---
+- name: "Remove KinD cluster {{ kind_cluster_name }} (please wait)"
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/{{ kind_binary_name }}"
+      - delete
+      - clusters
+      - "{{ kind_cluster_name }}"
+  when:
+    - kind_cluster_ensure != 'present'
+
+- name: "Remove any dangling docker items"
+  ansible.builtin.command:
+    argv:
+      - docker
+      - system
+      - prune
+      - --force
+  when:
+    - kind_cluster_ensure != 'present'

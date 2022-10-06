@@ -1,0 +1,21 @@
+---
+- name: "Note selected version of kind {{ kind_version }}"
+  ansible.builtin.command:
+    argv:
+      - echo
+      - "{{ kind_version }}"
+  register: kind_requested_version
+  when:
+    - kind_download_if_missing | bool
+  changed_when: false
+
+- name: "Download kind-{{ kind_requested_version.stdout }} as {{ dune_daq_bin_path }}/{{ kind_ver_bin }}"
+  ansible.builtin.get_url:
+    url: "{{ kind_release_baseurl }}/{{ kind_requested_version.stdout }}/{{ kind_release_tailurl }}"
+    dest: "{{ dune_daq_bin_path | expanduser }}/{{ kind_ver_bin }}"
+    mode: "0755"
+  vars:
+    kind_ver_bin: "{{ kind_binary_name }}-{{ kind_requested_version.stdout }}"
+  when:
+    - kind_download_if_missing | bool
+    - kind_binary_ensure == "present"

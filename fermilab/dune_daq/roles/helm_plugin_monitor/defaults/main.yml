@@ -1,0 +1,5 @@
+---
+helm_plugin_monitor_name: monitor
+helm_plugin_monitor_path: https://github.com/ContainerSolutions/helm-monitor
+helm_plugin_monitor_version: NULL
+helm_plugin_monitor_state: present

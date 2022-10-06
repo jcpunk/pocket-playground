@@ -1,0 +1,53 @@
+---
+- name: Make directory to store kubelet_tls_bootstrap files
+  ansible.builtin.file:
+    path: "{{ dune_daq_conf_path | expanduser }}/kubelet_tls_bootstrap"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+
+- name: Write YAML file to authorize kubelet to create CSR
+  ansible.builtin.copy:
+    src: create-csrs-for-bootstrapping.yml
+    dest: "{{ dune_daq_conf_path | expanduser }}/kubelet_tls_bootstrap/create-csrs-for-bootstrapping.yml"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0644"
+  when: kubelet_tls_bootstrap_create_csr | bool
+
+- name: Enable kubelet to create CSR
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ dune_daq_conf_path | expanduser }}/kubelet_tls_bootstrap/create-csrs-for-bootstrapping.yml"
+  when: kubelet_tls_bootstrap_create_csr | bool
+
+- name: Write YAML file to authorize control-plane to sign token CSRs
+  ansible.builtin.copy:
+    src: auto-approve-csrs-for-group.yml
+    dest: "{{ dune_daq_conf_path | expanduser }}/kubelet_tls_bootstrap/auto-approve-csrs-for-group.yml"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0644"
+  when: kubelet_tls_bootstrap_auto_sign_token_csr | bool
+
+- name: Enable control-plane to sign token CSRs
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ dune_daq_conf_path | expanduser }}/kubelet_tls_bootstrap/auto-approve-csrs-for-group.yml"
+  when: kubelet_tls_bootstrap_auto_sign_token_csr | bool
+
+- name: Write YAML file to authorize control-plane to sign renewal CSRs
+  ansible.builtin.copy:
+    src: auto-approve-renewals-for-nodes.yml
+    dest: "{{ dune_daq_conf_path | expanduser }}/kubelet_tls_bootstrap/auto-approve-renewals-for-nodes.yml"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0644"
+  when: kubelet_tls_bootstrap_auto_sign_renewal_csr | bool
+
+- name: Enable control-plane to sign renewal CSRs
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ dune_daq_conf_path | expanduser }}/kubelet_tls_bootstrap/auto-approve-renewals-for-nodes.yml"
+  when: kubelet_tls_bootstrap_auto_sign_renewal_csr | bool

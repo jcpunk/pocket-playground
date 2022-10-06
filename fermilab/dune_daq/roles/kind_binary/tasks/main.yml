@@ -1,0 +1,21 @@
+---
+- name: When no specific version of kind requested
+  ansible.builtin.include_tasks: download_latest.yml
+  when:
+    - kind_version == None
+
+- name: When a specific version of kind requested
+  ansible.builtin.include_tasks: download_specific.yml
+  when:
+    - kind_version != None
+
+- name: "Provide {{ kind_binary_name }} link"
+  ansible.builtin.include_tasks: make_nover_link.yml
+  when:
+    - kind_binary_ensure == "present"
+    - kind_binary_make_version_link | bool
+
+- name: Remove kind when requested
+  ansible.builtin.include_tasks: download_latest.yml
+  when:
+    - kind_binary_ensure != "present"

@@ -1,0 +1,26 @@
+---
+- name: "Remove {{ dune_daq_bin_path }}/{{ helm_binary_name }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    state: absent
+
+- name: "Remove {{ dune_daq_bin_path }}/{{ helm_ver_bin }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ helm_ver_bin }}"
+    state: absent
+  vars:
+    helm_ver_bin: "{{ helm_binary_name }}-{{ helm_requested_version.stdout }}"
+
+- name: "Remove downloaded archives from {{ helm_home }}"
+  ansible.builtin.file:
+    src: "{{ helm_home }}/archive"
+    state: absent
+  when:
+    - not (helm_download_if_missing | bool)
+
+- name: "Remove installed {{ helm_home }}"
+  ansible.builtin.file:
+    src: "{{ helm_home }}/"
+    state: absent
+  when:
+    - not (helm_install | bool)

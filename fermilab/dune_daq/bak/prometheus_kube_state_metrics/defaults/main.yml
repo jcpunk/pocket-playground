@@ -1,0 +1,13 @@
+---
+prometheus_kube_state_metrics_helm_repo_name: prometheus-community
+prometheus_kube_state_metrics_helm_chart_name: kube-state-metrics
+prometheus_kube_state_metrics_helm_release_name: kube-state-metrics
+
+prometheus_kube_state_metrics_ensure: present
+prometheus_kube_state_metrics_helm_version: NULL
+prometheus_kube_state_metrics_create_namespace: "yes"
+prometheus_kube_state_metrics_namespace: kube-system
+prometheus_kube_state_metrics_replicas: 2
+
+prometheus_kube_state_metrics_self_monitor_enabled: true
+prometheus_kube_state_metrics_vertical_podautoscaler: false

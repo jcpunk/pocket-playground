@@ -1,0 +1,5 @@
+- name: "Restart {{ containerd_service_name }}"
+  ansible.builtin.service:
+    name: "{{ containerd_service_name }}"
+    state: restart
+  become: true

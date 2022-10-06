@@ -1,0 +1,47 @@
+---
+- name: Finding Latest version of helm
+  ansible.builtin.uri:
+    url: "{{ helm_latest_version_url }}"
+    return_content: true
+    body_format: json
+  register: helm_latest_release
+  when:
+    - helm_download_if_missing | bool
+  changed_when: false
+
+- name: "Setting helm version to {{ helm_latest_release.json.tag_name }}"
+  ansible.builtin.command:
+    argv:
+      - echo
+      - "{{ helm_latest_release.json.tag_name }}"
+  register: helm_requested_version
+  when:
+    - helm_download_if_missing | bool
+  changed_when: false
+
+- name: "Making {{ helm_home }}"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ helm_home }}"
+    mode: "0700"
+  when:
+    - helm_download_if_missing | bool
+
+- name: "Making {{ helm_home }}/archive"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ helm_home }}/archive"
+    mode: "0700"
+  when:
+    - helm_download_if_missing | bool
+
+- name: "Download helm-{{ helm_requested_version.stdout }} as {{ helm_home }}/archive/{{ helm_ver_bin }}.tar.gz"
+  ansible.builtin.get_url:
+    url: "{{ helm_release_baseurl }}/{{ helm_ver_bin }}.tar.gz"
+    dest: "{{ helm_home }}/archive/{{ helm_ver_bin }}.tar.gz"
+    mode: "0755"
+  vars:
+    helm_ver_bin: "{{ helm_binary_name }}-{{ helm_requested_version.stdout }}-{{ ansible_system | lower }}-{{ go_arch }}"
+  when:
+    - helm_download_if_missing | bool
+    - helm_binary_ensure == "present"

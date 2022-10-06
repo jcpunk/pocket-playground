@@ -1,0 +1,4 @@
+---
+- name: Check for supported architecture
+  ansible.builtin.fail:
+    msg: "{{ ansible_architecture }} not supported"

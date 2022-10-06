@@ -1,0 +1,5 @@
+---
+helm_plugin_last_name: last
+helm_plugin_last_path: https://github.com/adamreese/helm-last
+helm_plugin_last_version: NULL
+helm_plugin_last_state: present

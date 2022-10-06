@@ -1,0 +1,12 @@
+---
+- name: "Remove {{ dune_daq_bin_path }}/{{ kubectl_binary_name }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ kubectl_binary_name }}"
+    state: absent
+
+- name: "Remove {{ dune_daq_bin_path }}/{{ kubectl_ver_bin }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ kubectl_ver_bin }}"
+    state: absent
+  vars:
+    kubectl_ver_bin: "{{ kubectl_binary_name }}-{{ kubectl_requested_version.stdout }}"

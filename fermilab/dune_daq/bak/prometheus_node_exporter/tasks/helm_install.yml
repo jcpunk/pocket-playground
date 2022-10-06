@@ -1,0 +1,17 @@
+---
+- name: "Install helm package {{ prometheus_node_exporter_helm_package_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ prometheus_node_exporter_helm_package_name }}"
+    chart_ref: "{{ prometheus_node_exporter_helm_repo_name }}/{{ prometheus_node_exporter_helm_package_name }}"
+    namespace: "{{ prometheus_node_exporter_namespace }}"
+    chart_version: "{{ prometheus_node_exporter_helm_version }}"
+    create_namespace: "{{ prometheus_node_exporter_create_namespace }}"
+    state: present
+    values:
+      replicas: "{{ prometheus_node_exporter_replicas }}"
+      hostRootFsMount:
+        enabled: "{{ prometheus_node_exporter_host_rootfs_mount }}"
+      selfMonitor:
+        enabled: "{{ prometheus_node_exporter_self_monitor_enabled }}"
+      extraArgs: "{{ prometheus_node_exporter_extraArgs }}"

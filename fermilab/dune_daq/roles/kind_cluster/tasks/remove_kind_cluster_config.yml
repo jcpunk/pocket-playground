@@ -1,0 +1,7 @@
+---
+- name: "Remove {{ dune_daq_conf_path }}/kind/{{ kind_cluster_name }}.yml"
+  ansible.builtin.file:
+    path: "{{ dune_daq_conf_path | expanduser }}/kind/{{ kind_cluster_name }}.yml"
+    state: absent
+  when:
+    - not (kind_cluster_write_config | bool)

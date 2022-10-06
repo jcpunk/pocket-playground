@@ -1,0 +1,72 @@
+---
+- name: Make directory to store kube_prometheus files
+  ansible.builtin.file:
+    path: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+
+- name: "Install helm package {{ kube_prometheus_helm_repo_name }}/{{ kube_prometheus_helm_chart_name }} {{ kube_prometheus_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ kube_prometheus_helm_release_name }}"
+    chart_ref: "{{ kube_prometheus_helm_repo_name }}/{{ kube_prometheus_helm_chart_name }}"
+    namespace: "{{ kube_prometheus_namespace }}"
+    chart_version: "{{ kube_prometheus_helm_version }}"
+    create_namespace: "{{ kube_prometheus_create_namespace }}"
+    state: present
+    values:
+      grafana:
+        adminPassword: "{{ kube_prometheus_grafana_password }}"
+  notify: prometheus installed
+
+- name: Write YAML file to create pretty alertmanager service
+  ansible.builtin.copy:
+    src: alertmanager-pretty-service.yml
+    dest: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/alertmanager-pretty-service.yml"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0644"
+  when: kube_prometheus_pretty_service_names | bool
+
+- name: Enable pretty alertmanager service
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/alertmanager-pretty-service.yml"
+  when: kube_prometheus_pretty_service_names | bool
+
+- name: Write YAML file to create pretty grafana service
+  ansible.builtin.copy:
+    src: grafana-pretty-service.yml
+    dest: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/grafana-pretty-service.yml"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0644"
+  when: kube_prometheus_pretty_service_names | bool
+
+- name: Enable pretty grafana service
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/grafana-pretty-service.yml"
+  when: kube_prometheus_pretty_service_names | bool
+
+- name: Write YAML file to create pretty prometheus service
+  ansible.builtin.copy:
+    src: prometheus-pretty-service.yml
+    dest: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/prometheus-pretty-service.yml"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0644"
+  when: kube_prometheus_pretty_service_names | bool
+
+- name: Enable pretty prometheus service
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/prometheus-pretty-service.yml"
+  when: kube_prometheus_pretty_service_names | bool
+
+- name: set Pod Security Admission
+  ansible.builtin.include_tasks: pod_security_admission.yml
+  when:
+    - kube_prometheus_set_pod_security_admission | bool

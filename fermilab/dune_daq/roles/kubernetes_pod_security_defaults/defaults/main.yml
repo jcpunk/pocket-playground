@@ -1,0 +1,2 @@
+---
+kubernetes_pod_security_defaults_set: false

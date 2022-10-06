@@ -1,0 +1,22 @@
+---
+- name: "Ensure {{ kubectl_home }} exists"
+  ansible.builtin.file:
+    path: "{{ kubectl_home }}"
+    state: directory
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0700"
+  when:
+    - kubectl_binary_ensure == "present"
+
+- name: "Ensure {{ kubectl_home }}/config is protected"
+  ansible.builtin.file:
+    path: "{{ kubectl_home }}/config"
+    state: touch
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0600"
+    modification_time: preserve
+    access_time: preserve
+  when:
+    - kubectl_binary_ensure == "present"

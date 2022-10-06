@@ -1,0 +1,15 @@
+---
+dune_daq_bin_path: ~/.local/bin
+dune_daq_conf_path: ~/dune_daq_conf
+
+os_packages:
+  - git
+  - tar
+
+# wheel should remain the first module
+python_modules:
+  - wheel
+  - docker
+  - jsonpatch
+  - kubernetes
+  - PyYAML

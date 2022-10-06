@@ -1,0 +1,6 @@
+---
+- name: "Install {{ tigera_operator_helm_release_name }} via helm"
+  ansible.builtin.include_tasks: helm_install.yml
+  when:
+    - tigera_operator_ensure == "present"
+    - kind_cluster_disable_default_cni | default('false') | bool

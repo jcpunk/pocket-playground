@@ -1,0 +1,12 @@
+---
+kubeadm_download_if_missing: true
+kubeadm_binary_make_version_link: true
+
+kubeadm_version: NULL
+kubeadm_binary_ensure: present
+
+kubeadm_binary_name: kubeadm
+
+kubeadm_stable_version_url: https://dl.k8s.io/release/stable.txt
+kubeadm_release_baseurl: https://dl.k8s.io/release
+kubeadm_release_tailurl: "bin/{{ ansible_system | lower }}/{{ go_arch }}/kubeadm"

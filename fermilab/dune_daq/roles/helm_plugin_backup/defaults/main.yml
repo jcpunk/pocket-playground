@@ -1,0 +1,5 @@
+---
+helm_plugin_backup_name: backup
+helm_plugin_backup_path: https://github.com/maorfr/helm-backup
+helm_plugin_backup_version: NULL
+helm_plugin_backup_state: present

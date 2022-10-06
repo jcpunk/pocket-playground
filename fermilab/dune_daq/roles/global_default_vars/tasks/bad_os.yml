@@ -1,0 +1,4 @@
+---
+- name: Check for supported platform
+  ansible.builtin.fail:
+    msg: "{{ ansible_system }} not supported"

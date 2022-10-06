@@ -1,0 +1,26 @@
+---
+- name: When no specific version of helm requested
+  ansible.builtin.include_tasks: download_latest.yml
+  when:
+    - helm_version == None
+
+- name: When a specific version of helm requested
+  ansible.builtin.include_tasks: download_specific.yml
+  when:
+    - helm_version != None
+
+- name: Extract helm package manager
+  ansible.builtin.include_tasks: extract_helm.yml
+  when:
+    - helm_binary_ensure == "present"
+
+- name: "Provide {{ helm_binary_name }} link"
+  ansible.builtin.include_tasks: make_nover_link.yml
+  when:
+    - helm_binary_ensure == "present"
+    - helm_binary_make_version_link | bool
+
+- name: Remove helm when requested
+  ansible.builtin.include_tasks: download_latest.yml
+  when:
+    - helm_binary_ensure != "present"

@@ -1,0 +1,22 @@
+---
+- name: When no specific version of kubeadm requested
+  ansible.builtin.include_tasks: download_stable.yml
+  when:
+    - kubeadm_version == None
+
+- name: When a specific version of kubeadm requested
+  ansible.builtin.include_tasks: download_specific.yml
+  when:
+    - kubeadm_version != None
+
+- name: "Provide {{ kubeadm_binary_name }} link"
+  ansible.builtin.include_tasks: make_nover_link.yml
+  when:
+    - kubeadm_binary_ensure == "present"
+    - kubeadm_binary_make_version_link | bool
+
+- name: Remove kubeadm when requested
+  ansible.builtin.include_tasks: download_stable.yml
+  when:
+    - kubeadm_binary_ensure != "present"
+# https://github.com/kubernetes/release/blob/master/cmd/kubepkg/templates/latest/rpm/kubeadm/10-kubeadm.conf

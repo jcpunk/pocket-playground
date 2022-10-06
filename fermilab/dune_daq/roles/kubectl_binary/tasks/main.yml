@@ -1,0 +1,26 @@
+---
+- name: When no specific version of kubectl requested
+  ansible.builtin.include_tasks: download_stable.yml
+  when:
+    - kubectl_version == None
+
+- name: When a specific version of kubectl requested
+  ansible.builtin.include_tasks: download_specific.yml
+  when:
+    - kubectl_version != None
+
+- name: "Ensure {{ kubectl_home }} is setup correctly"
+  ansible.builtin.include_tasks: setup_config.yml
+  when:
+    - kubectl_binary_ensure == "present"
+
+- name: "Provide {{ kubectl_binary_name }} link"
+  ansible.builtin.include_tasks: make_nover_link.yml
+  when:
+    - kubectl_binary_ensure == "present"
+    - kubectl_binary_make_version_link | bool
+
+- name: Remove kubectl when requested
+  ansible.builtin.include_tasks: download_stable.yml
+  when:
+    - kubectl_binary_ensure != "present"

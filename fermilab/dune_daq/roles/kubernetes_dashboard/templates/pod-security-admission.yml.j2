@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ kubernetes_dashboard_namespace }}
+  labels:
+{% if kubernetes_dashboard_pod_security_enforce is defined and kubernetes_dashboard_pod_security_enforce|length %}
+    pod-security.kubernetes.io/enforce: {{ kubernetes_dashboard_pod_security_enforce }}
+{% endif %}
+{% if kubernetes_dashboard_pod_security_audit is defined and kubernetes_dashboard_pod_security_audit|length %}
+    pod-security.kubernetes.io/audit: {{ kubernetes_dashboard_pod_security_audit }}
+{% endif %}
+{% if kubernetes_dashboard_pod_security_warn is defined and kubernetes_dashboard_pod_security_warn|length %}
+    pod-security.kubernetes.io/warn: {{ kubernetes_dashboard_pod_security_warn }}
+{% endif %}

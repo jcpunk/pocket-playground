@@ -1,0 +1,9 @@
+---
+- name: "Install kubectl krew plugin {{ kubectl_krew_plugin_trace_name }}"
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/{{ kubectl_binary_name }}"
+      - krew
+      - install
+      - "{{ kubectl_krew_plugin_trace_name }}"
+    creates: "{{ krew_home }}/bin/kubectl-trace"

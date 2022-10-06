@@ -1,0 +1,12 @@
+---
+kind_download_if_missing: true
+kind_binary_make_version_link: true
+
+kind_version: NULL
+kind_binary_ensure: present
+
+kind_binary_name: kind
+
+kind_latest_version_url: https://api.github.com/repos/kubernetes-sigs/kind/releases/latest
+kind_release_baseurl: https://github.com/kubernetes-sigs/kind/releases/download
+kind_release_tailurl: "kind-{{ ansible_system | lower }}-{{ go_arch }}"

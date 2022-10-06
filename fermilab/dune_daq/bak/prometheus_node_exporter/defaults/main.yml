@@ -1,0 +1,17 @@
+---
+prometheus_node_exporter_helm_repo_name: prometheus-community
+prometheus_node_exporter_helm_chart_name: prometheus-node-exporter
+prometheus_node_exporter_helm_release_name: prometheus-node-exporter
+
+prometheus_node_exporter_ensure: present
+prometheus_node_exporter_helm_version: NULL
+prometheus_node_exporter_create_namespace: "yes"
+prometheus_node_exporter_namespace: monitoring
+prometheus_node_exporter_replicas: 1
+prometheus_node_exporter_host_rootfs_mount: true
+prometheus_node_exporter_self_monitor_enabled: true
+prometheus_node_exporter_extra_args:
+  - --no-collector.wifi
+  - --no-collector.hwmon
+  - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
+  - --collector.netclass.ignored-devices=^(veth.*)$

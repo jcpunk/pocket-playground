@@ -1,0 +1,7 @@
+---
+- name: "Uninstall helm package {{ metrics_server_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ metrics_server_helm_release_name }}"
+    namespace: "{{ metrics_server_namespace }}"
+    state: absent

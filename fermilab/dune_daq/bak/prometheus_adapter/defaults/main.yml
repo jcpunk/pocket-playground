@@ -1,0 +1,40 @@
+---
+prometheus_adapter_helm_repo_name: prometheus-community
+prometheus_adapter_helm_chart_name: prometheus-adapter
+prometheus_adapter_helm_release_name: prometheus-adapter
+
+prometheus_adapter_ensure: present
+prometheus_adapter_helm_version: NULL
+prometheus_adapter_create_namespace: "yes"
+prometheus_adapter_namespace: kube-system
+prometheus_adapter_replicas: 2
+prometheus_adapter_priority_class_name: system-cluster-critical
+prometheus_adapter_prometheus_settings:
+  url: http://prometheus-server.monitoring.svc.cluster.local
+  port: 9090
+prometheus_adapter_rules_resource:
+  cpu:
+    containerQuery: sum(rate(container_cpu_usage_seconds_total{<<.LabelMatchers>>, container!=""}[3m])) by (<<.GroupBy>>)
+    nodeQuery: sum(rate(container_cpu_usage_seconds_total{<<.LabelMatchers>>, id='/'}[3m])) by (<<.GroupBy>>)
+    resources:
+      overrides:
+        node:
+          resource: node
+        namespace:
+          resource: namespace
+        pod:
+          resource: pod
+    containerLabel: container
+  memory:
+    containerQuery: sum(container_memory_working_set_bytes{<<.LabelMatchers>>, container!=""}) by (<<.GroupBy>>)
+    nodeQuery: sum(container_memory_working_set_bytes{<<.LabelMatchers>>,id='/'}) by (<<.GroupBy>>)
+    resources:
+      overrides:
+        node:
+          resource: node
+        namespace:
+          resource: namespace
+        pod:
+          resource: pod
+    containerLabel: container
+  window: 3m

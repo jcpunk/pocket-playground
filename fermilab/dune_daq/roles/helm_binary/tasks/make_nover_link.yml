@@ -1,0 +1,12 @@
+---
+# should this do something to PATH?
+- name: "Link {{ dune_daq_bin_path }}/{{ helm_ver_bin }} to {{ dune_daq_bin_path }}/{{ helm_binary_name }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ helm_ver_bin }}"
+    dest: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    state: link
+  vars:
+    helm_ver_bin: "{{ helm_binary_name }}-{{ helm_requested_version.stdout }}"
+  when:
+    - helm_binary_ensure == "present"
+    - helm_binary_make_version_link | bool

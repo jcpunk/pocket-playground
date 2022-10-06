@@ -1,0 +1,10 @@
+---
+allow_duplicates: false
+dependencies:
+  - role: fermilab.dune_daq.common_setup
+  - role: fermilab.dune_daq.helm_binary
+  - role: fermilab.dune_daq.helm_repos
+  - role: fermilab.dune_daq.helm_plugin_backup
+  - role: fermilab.dune_daq.helm_plugin_diff
+  - role: fermilab.dune_daq.helm_plugin_last
+  - role: fermilab.dune_daq.helm_plugin_monitor

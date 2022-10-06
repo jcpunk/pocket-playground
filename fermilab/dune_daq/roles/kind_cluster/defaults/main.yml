@@ -1,0 +1,25 @@
+---
+kind_control_planes: 1
+kind_workers: 1
+
+kind_node_version: "{{ kubectl_requested_version.stdout }}"
+kind_configure_kubectl: true
+
+kind_binary_name: kind
+kind_container_type_package_name: docker-ce
+kind_container_type_service: docker.socket
+
+kind_cluster_name: pocketdune
+kind_cluster_ipfamily: ipv4
+kind_cluster_pod_subnet: 10.244.0.0/16 # default for kind, but explicit here
+kind_cluster_service_subnet: 10.96.0.0/12 # default for kind, but explicit here
+kind_cluster_write_config: true
+kind_cluster_disable_default_cni: false
+
+kind_cluster_ensure: present
+
+kind_load_docker_images:
+  - "quay.io/cilium/cilium:v1.12.3"
+  - "quay.io/cilium/operator-generic:v1.12.3"
+
+kind_cluster_portmappings: []

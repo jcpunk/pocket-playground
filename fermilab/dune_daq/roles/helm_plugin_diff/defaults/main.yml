@@ -1,0 +1,5 @@
+---
+helm_plugin_diff_name: diff
+helm_plugin_diff_path: https://github.com/databus23/helm-diff
+helm_plugin_diff_version: NULL
+helm_plugin_diff_state: present

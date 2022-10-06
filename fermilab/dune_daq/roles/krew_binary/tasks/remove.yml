@@ -1,0 +1,19 @@
+---
+- name: "Remove {{ krew_home }}/{{ krew_binary_name }}-{{ ansible_system | lower }}-{{ go_arch }}"
+  ansible.builtin.file:
+    src: "{{ krew_home }}/{{ krew_binary_name }}-{{ ansible_system | lower }}-{{ go_arch }}"
+    state: absent
+
+- name: "Remove downloaded archives from {{ krew_home }}"
+  ansible.builtin.file:
+    src: "{{ krew_home }}/archive"
+    state: absent
+  when:
+    - not (krew_download_if_missing | bool)
+
+- name: "Remove installed {{ krew_home }}"
+  ansible.builtin.file:
+    src: "{{ krew_home }}/"
+    state: absent
+  when:
+    - not (krew_install | bool)

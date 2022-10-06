@@ -1,0 +1,5 @@
+---
+allow_duplicates: false
+dependencies:
+  - role: fermilab.dune_daq.common_setup
+  - role: fermilab.dune_daq.kind_binary

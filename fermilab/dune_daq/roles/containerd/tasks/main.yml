@@ -1,0 +1,35 @@
+---
+- name: "Manage {{ containerd_package_name }} package"
+  ansible.builtin.package:
+    name: "{{ containerd_package_name }}"
+    state: "{{ containerd_package_state }}"
+  become: true
+
+- name: Learn containerd default configuration for this version
+  ansible.builtin.command:
+    cmd: containerd config dump
+  register: containerd_config_dump
+  when:
+    - containerd_reset_config
+    - containerd_service_state != "stopped"
+  changed_when: false
+
+- name: "Set {{ containerd_config_file }} to defaults"
+  ansible.builtin.copy:
+    dest: "{{ containerd_config_file }}"
+    content: "{{ containerd_config_dump.stdout }}"
+    owner: root
+    group: root
+    mode: "0644"
+  when:
+    - containerd_reset_config
+    - containerd_service_state != "stopped"
+  notify: "Restart {{ containerd_service_name }}"
+  become: true
+
+- name: "Manage {{ containerd_service_name }}"
+  ansible.builtin.service:
+    name: "{{ containerd_service_name }}"
+    state: "{{ containerd_service_state }}"
+    enabled: "{{ containerd_service_enabled | bool }}"
+  become: true

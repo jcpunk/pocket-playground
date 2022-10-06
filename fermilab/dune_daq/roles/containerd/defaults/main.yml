@@ -1,0 +1,10 @@
+---
+containerd_package_name: containerd
+containerd_package_state: present
+
+containerd_service_name: containerd.service
+containerd_service_state: started
+containerd_service_enabled: true
+
+containerd_config_file: /etc/containerd/config.toml
+containerd_reset_config: true

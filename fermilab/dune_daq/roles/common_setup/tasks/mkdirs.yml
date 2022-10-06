@@ -1,0 +1,12 @@
+---
+- name: "Ensure {{ dune_daq_bin_path }} exists"
+  ansible.builtin.file:
+    path: "{{ dune_daq_bin_path | expanduser }}"
+    state: directory
+    mode: "0755"
+
+- name: "Ensure {{ dune_daq_conf_path }} exists"
+  ansible.builtin.file:
+    path: "{{ dune_daq_conf_path | expanduser }}"
+    state: directory
+    mode: "0755"

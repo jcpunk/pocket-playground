@@ -1,0 +1,38 @@
+---
+- name: Find pending CSRs for KinD
+  ansible.builtin.shell:
+    cmd: "{{ dune_daq_bin_path | expanduser }}/{{ kubectl_binary_name }} get csr --no-headers=true | grep -i pending | cut -d' ' -f1"
+  register: kind_pending_csr
+  when:
+    - kind_cluster_ensure == 'present'
+  changed_when: false
+  listen: "finish KinD cluster"
+
+- name: Approve pending CSRs for KinD
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/{{ kubectl_binary_name }}"
+      - certificate
+      - approve
+      - "{{ item }}"
+  loop: "{{ kind_pending_csr.stdout | split(\"\n\") }}"
+  listen: "finish KinD cluster"
+
+- name: Cache images we need locally
+  community.docker.docker_image:
+    name: "{{ item }}"
+    source: pull
+  loop: "{{ kind_load_docker_images }}"
+  listen: "finish KinD cluster"
+
+- name: "Load cached images into {{ kind_cluster_name }} kind cluster"
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/{{ kind_binary_name }}"
+      - load
+      - docker-image
+      - "{{ item }}"
+      - --name
+      - "{{ kind_cluster_name }}"
+  loop: "{{ kind_load_docker_images }}"
+  listen: "finish KinD cluster"

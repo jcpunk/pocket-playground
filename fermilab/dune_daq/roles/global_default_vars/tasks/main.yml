@@ -1,0 +1,11 @@
+---
+- name: Fail if unsupported arch
+  ansible.builtin.include_tasks: bad_arch.yml
+  when: ansible_architecture != "x86_64"
+
+- name: Fail if unsupported platform
+  ansible.builtin.include_tasks: bad_os.yml
+  when: ansible_system != "Linux"
+
+- name: Import global_default_vars
+  ansible.builtin.include_tasks: load_vars.yml

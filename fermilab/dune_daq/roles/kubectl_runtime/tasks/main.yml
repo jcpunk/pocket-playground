@@ -1,0 +1,7 @@
+---
+- name: Setup kubectl binary
+  ansible.builtin.include_role:
+    name: fermilab.dune_daq.kubectl_binary
+- name: setup kubectl krew plugins
+  ansible.builtin.include_role:
+    name: fermilab.dune_daq.kubectl_krew_plugins

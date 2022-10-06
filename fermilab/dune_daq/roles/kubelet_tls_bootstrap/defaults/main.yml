@@ -1,0 +1,4 @@
+---
+kubelet_tls_bootstrap_create_csr: false
+kubelet_tls_bootstrap_auto_sign_token_csr: false
+kubelet_tls_bootstrap_auto_sign_renewal_csr: false

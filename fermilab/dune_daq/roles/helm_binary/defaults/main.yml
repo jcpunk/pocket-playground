@@ -1,0 +1,13 @@
+---
+helm_download_if_missing: true
+helm_binary_make_version_link: true
+
+helm_version: NULL
+helm_binary_ensure: present
+
+helm_binary_name: helm
+
+helm_latest_version_url: https://api.github.com/repos/helm/helm/releases/latest
+helm_release_baseurl: https://get.helm.sh
+
+helm_home: "{{ '~' | expanduser }}/.helm"

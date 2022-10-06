@@ -1,0 +1,5 @@
+---
+- name: "Install {{ prometheus_kube_state_metrics_helm_package_name }} via helm"
+  ansible.builtin.include_tasks: helm_install.yml
+  when:
+    - prometheus_kube_state_metrics_ensure == "present"

@@ -1,0 +1,7 @@
+---
+- name: "Install Helm {{ helm_plugin_diff_name }} plugin"
+  kubernetes.core.helm_plugin:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    plugin_path: "{{ helm_plugin_diff_path }}"
+    state: "{{ helm_plugin_diff_state }}"
+    plugin_version: "{{ helm_plugin_diff_version }}"

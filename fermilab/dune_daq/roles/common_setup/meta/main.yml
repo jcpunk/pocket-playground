@@ -1,0 +1,4 @@
+---
+allow_duplicates: false
+dependencies:
+  - role: fermilab.dune_daq.global_default_vars

@@ -1,0 +1,18 @@
+---
+- name: "Make {{ dune_daq_conf_path }}/kind"
+  ansible.builtin.file:
+    path: "{{ dune_daq_conf_path | expanduser }}/kind"
+    state: directory
+    mode: "0755"
+  when:
+    - kind_cluster_write_config | bool
+
+- name: "Generate {{ dune_daq_conf_path }}/kind/{{ kind_cluster_name }}.yml"
+  ansible.builtin.template:
+    src: kind_cluster.yml.j2
+    dest: "{{ dune_daq_conf_path | expanduser }}/kind/{{ kind_cluster_name }}.yml"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: "0644"
+  when:
+    - kind_cluster_write_config | bool

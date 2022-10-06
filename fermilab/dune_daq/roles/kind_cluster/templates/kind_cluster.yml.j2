@@ -1,0 +1,94 @@
+---
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+name: {{ kind_cluster_name }}
+networking:
+  ipFamily: {{ kind_cluster_ipfamily }}
+{% if kind_cluster_pod_subnet is defined and kind_cluster_pod_subnet|length %}
+  podSubnet: {{ kind_cluster_pod_subnet }}
+{% endif %}
+{% if kind_cluster_service_subnet is defined and kind_cluster_service_subnet|length %}
+  serviceSubnet: {{ kind_cluster_service_subnet }}
+{% endif %}
+  disableDefaultCNI: {{ kind_cluster_disable_default_cni | bool }}
+
+  # WARNING: It is _strongly_ recommended that you keep this the default
+  # (127.0.0.1) for security reasons. However it is possible to change this.
+  apiServerAddress: "127.0.0.1"
+nodes:
+{% for control in range(0, kind_control_planes) %}
+  - role: control-plane
+    image: kindest/node:{{ kind_node_version }}
+    kubeadmConfigPatches:
+      - |
+        apiVersion: kubelet.config.k8s.io/v1beta1
+        kind: KubeletConfiguration
+        ProtectKernelDefaults: true
+        serverTLSBootstrap: true
+        rotateCertificates: true
+        failSwapOn: false
+      - |
+        # enable-aggregator-routing required for metrics
+        # enable-bootstrap-token-auth required for TLS Bootstrap
+        apiVersion: kubeadm.k8s.io/v1beta3
+        kind: ClusterConfiguration
+        clusterName: {{ kind_cluster_name }}
+        apiServer:
+          extraArgs:
+            enable-aggregator-routing: "true"
+            enable-bootstrap-token-auth: "true"
+      - |
+        # WARNING: the metrics endpoint can expose private information
+        # the default of 127.0.0.1 is secure, but harder to monitor.
+        # ipvs + strictARP is needed for MetalLB
+        apiVersion: kubeadm.k8s.io/v1beta3
+        kind: KubeProxyConfiguration
+        metricsBindAddress: "127.0.0.1"
+        mode: "ipvs"
+        ipvs:
+          strictARP: true
+      - |
+        # WARNING: these endpoints can expose private information
+        # the default of 127.0.0.1 is secure, but harder to monitor.
+        apiVersion: kubeadm.k8s.io/v1beta3
+        kind: ClusterConfiguration
+        controllerManager:
+          extraArgs:
+            bind-address: "127.0.0.1"
+        scheduler:
+          extraArgs:
+            bind-address: "127.0.0.1"
+{% if loop.first %}
+{% if kind_cluster_portmappings | length > 0 %}
+      - |
+        apiVersion: kubeadm.k8s.io/v1beta3
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+    extraPortMappings:
+{% for portmap in kind_cluster_portmappings %}
+{% for key, value in portmap.items()|sort(attribute='0') %}
+{% if loop.first %}
+      - {{ key }}: {{ value }}
+{% else %}
+        {{ key }}: {{ value }}
+{% endif -%}
+{% endfor -%}
+{% endfor -%}
+{% endif -%}
+{% endif -%}
+{% endfor -%}
+{% for worker in range(0, kind_workers) %}
+  - role: worker
+    image: kindest/node:{{ kind_node_version }}
+    kubeadmConfigPatches:
+      - |
+        apiVersion: kubelet.config.k8s.io/v1beta1
+        kind: KubeletConfiguration
+        ProtectKernelDefaults: true
+        serverTLSBootstrap: true
+        rotateCertificates: true
+        failSwapOn: false
+{% endfor -%}
+...

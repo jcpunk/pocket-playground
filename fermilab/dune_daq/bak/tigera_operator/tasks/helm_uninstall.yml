@@ -1,0 +1,7 @@
+---
+- name: "Uninstall helm package {{ tigera_operator_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ tigera_operator_helm_release_name }}"
+    namespace: "{{ tigera_operator_namespace }}"
+    state: absent

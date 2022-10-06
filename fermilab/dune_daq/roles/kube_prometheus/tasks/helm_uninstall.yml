@@ -1,0 +1,7 @@
+---
+- name: "Uninstall helm package {{ kube_prometheus_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ kube_prometheus_helm_release_name }}"
+    namespace: "{{ kube_prometheus_namespace }}"
+    state: absent

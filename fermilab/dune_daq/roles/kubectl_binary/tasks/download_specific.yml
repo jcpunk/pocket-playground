@@ -1,0 +1,21 @@
+---
+- name: "Note selected version of kubectl {{ kubectl_version }}"
+  ansible.builtin.command:
+    argv:
+      - echo
+      - "{{ kubectl_version }}"
+  register: kubectl_requested_version
+  when:
+    - kubectl_download_if_missing | bool
+  changed_when: false
+
+- name: "Download kubectl-{{ kubectl_requested_version.stdout }} as {{ dune_daq_bin_path }}/{{ kubectl_ver_bin }}"
+  ansible.builtin.get_url:
+    url: "{{ kubectl_release_baseurl }}/{{ kubectl_requested_version.stdout }}/{{ kubectl_release_tailurl }}"
+    dest: "{{ dune_daq_bin_path | expanduser }}/{{ kubectl_ver_bin }}"
+    mode: "0755"
+  vars:
+    kubectl_ver_bin: "{{ kubectl_binary_name }}-{{ kubectl_requested_version.stdout }}"
+  when:
+    - kubectl_download_if_missing | bool
+    - kubectl_binary_ensure == "present"

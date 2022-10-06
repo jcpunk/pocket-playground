@@ -1,0 +1,17 @@
+---
+- name: Ensure ~/.bashrc loads ~/.bashrc.d
+  ansible.builtin.lineinfile:
+    path: "{{ '~' | expanduser }}/.bashrc"
+    line: 'if [ -d ~/.bashrc.d ] ; then for file in ~/.bashrc.d/*.bashrc ; do test -f "$file" || continue; source "$file"; done; fi'
+
+- name: Ensure ~/.bashrc.d exists
+  ansible.builtin.file:
+    path: "{{ '~' | expanduser }}/.bashrc.d"
+    state: directory
+    mode: "0700"
+
+- name: "Put {{ dune_daq_bin_path }} in PATH for bash"
+  ansible.builtin.copy:
+    content: "export PATH=${PATH}:{{ dune_daq_bin_path | expanduser }}"
+    dest: "{{ '~' | expanduser }}/.bashrc.d/add_dune_daq_bin_path.bashrc"
+    mode: "0600"

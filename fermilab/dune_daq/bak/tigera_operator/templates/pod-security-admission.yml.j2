@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ tigera_operator_namespace }}
+  labels:
+{% if tigera_operator_pod_security_enforce is defined and tigera_operator_pod_security_enforce|length %}
+    pod-security.kubernetes.io/enforce: {{ tigera_operator_pod_security_enforce }}
+{% endif %}
+{% if tigera_operator_pod_security_audit is defined and tigera_operator_pod_security_audit|length %}
+    pod-security.kubernetes.io/audit: {{ tigera_operator_pod_security_audit }}
+{% endif %}
+{% if tigera_operator_pod_security_warn is defined and tigera_operator_pod_security_warn|length %}
+    pod-security.kubernetes.io/warn: {{ tigera_operator_pod_security_warn }}
+{% endif %}

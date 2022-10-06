@@ -1,0 +1,15 @@
+---
+- name: Manage helm repos
+  kubernetes.core.helm_repository:
+    name: "{{ item.name }}"
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    repo_url: "{{ item.url }}"
+    repo_state: present
+  loop: "{{ helm_repos }}"
+
+- name: Refresh helm repo data
+  kubernetes.core.helm:
+    name: dummy
+    namespace: kube-system
+    state: absent
+    update_repo_cache: true

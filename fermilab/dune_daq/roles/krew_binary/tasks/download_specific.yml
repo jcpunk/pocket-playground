@@ -1,0 +1,37 @@
+---
+- name: "Note selected version of krew {{ krew_version }}"
+  ansible.builtin.command:
+    argv:
+      - echo
+      - "{{ krew_version }}"
+  register: krew_requested_version
+  when:
+    - krew_download_if_missing | bool
+  changed_when: false
+
+- name: "Making {{ krew_home }}"
+  ansible.builtin.file:
+    state: directory
+    src: "{{ krew_home }}"
+    mode: "0700"
+  when:
+    - krew_download_if_missing | bool
+
+- name: "Making {{ krew_home }}/archive"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ krew_home }}/archive"
+    mode: "0700"
+  when:
+    - krew_download_if_missing | bool
+
+- name: "Download krew-{{ krew_requested_version.stdout }} as {{ krew_home }}/archive/{{ krew_ver_bin }}.tar.gz"
+  ansible.builtin.get_url:
+    url: "{{ krew_release_baseurl }}/{{ krew_requested_version.stdout }}/{{ krew_release_tailurl }}"
+    dest: "{{ krew_home }}/archive/{{ krew_ver_bin }}.tar.gz"
+    mode: "0755"
+  vars:
+    krew_ver_bin: "{{ krew_binary_name }}-{{ ansible_system | lower }}-{{ krew_requested_version.stdout }}"
+  when:
+    - krew_download_if_missing | bool
+    - krew_binary_ensure == "present"

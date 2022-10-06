@@ -1,0 +1,12 @@
+---
+- name: "Remove {{ dune_daq_bin_path }}/{{ kind_binary_name }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ kind_binary_name }}"
+    state: absent
+
+- name: "Remove {{ dune_daq_bin_path }}/{{ kind_ver_bin }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ kind_ver_bin }}"
+    state: absent
+  vars:
+    kind_ver_bin: "{{ kind_binary_name }}-{{ kind_requested_version.stdout }}"

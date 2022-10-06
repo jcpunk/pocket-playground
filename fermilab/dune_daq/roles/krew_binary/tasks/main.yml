@@ -1,0 +1,21 @@
+---
+- name: When no specific version of krew requested
+  ansible.builtin.include_tasks: download_latest.yml
+  when:
+    - krew_version == None
+
+- name: When a specific version of krew requested
+  ansible.builtin.include_tasks: download_specific.yml
+  when:
+    - krew_version != None
+
+- name: Install krew plugin system
+  ansible.builtin.include_tasks: install_krew.yml
+  when:
+    - krew_binary_ensure == "present"
+    - krew_install | bool
+
+- name: Remove krew when requested
+  ansible.builtin.include_tasks: download_latest.yml
+  when:
+    - krew_binary_ensure != "present"

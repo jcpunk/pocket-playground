@@ -1,0 +1,71 @@
+---
+- name: Ensure we have our outer layer package
+  ansible.builtin.package:
+    name: "{{ kind_container_type_package_name }}"
+  when: ansible_system == "Linux"
+
+- name: Start our outer layer service
+  ansible.builtin.service:
+    name: "{{ kind_container_type_service }}"
+    enabled: true
+    state: started
+  when: ansible_system == "Linux"
+
+- name: Check for existing cluster
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/{{ kind_binary_name }}"
+      - get
+      - clusters
+  register: kind_running_clusters
+  when:
+    - kind_cluster_ensure == 'present'
+  changed_when: false
+
+- name: "Generate KinD cluster {{ kind_cluster_name }} from {{ dune_daq_conf_path }}/kind/{{ kind_cluster_name }}.yml (please wait ~3 min)"
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/{{ kind_binary_name }}"
+      - create
+      - cluster
+      - --wait
+      - 5s
+      - --kubeconfig
+      - "{{ kubectl_home }}/config"
+      - --config
+      - "{{ dune_daq_conf_path | expanduser }}/kind/{{ kind_cluster_name }}.yml"
+  notify: "finish KinD cluster"
+  when:
+    - kind_cluster_ensure == 'present'
+    - kind_cluster_name not in kind_running_clusters.stdout
+
+- name: Run any pending change handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: "Find default kubectl context for {{ kubectl_home }}/config"
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/kubectl"
+      - config
+      - --kubeconfig
+      - "{{ kubectl_home }}/config"
+      - current-context
+  register: kubectl_default_context
+  failed_when: kubectl_default_context.rc > 1
+  when:
+    - kubectl_binary_ensure == "present"
+  changed_when: false
+
+- name: "Setup kubectl for our KinD cluster (kind-{{ kind_cluster_name }}) by default"
+  ansible.builtin.command:
+    argv:
+      - "{{ dune_daq_bin_path | expanduser }}/kubectl"
+      - config
+      - --kubeconfig
+      - "{{ kubectl_home }}/config"
+      - use-context
+      - "kind-{{ kind_cluster_name }}"
+  when:
+    - kind_configure_kubectl | bool
+    - kubectl_default_context.stdout != "kind-" + kind_cluster_name
+    - kind_cluster_ensure == 'present'

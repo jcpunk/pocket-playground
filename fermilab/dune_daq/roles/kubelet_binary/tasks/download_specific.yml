@@ -1,0 +1,20 @@
+---
+- name: "Note selected version of kubelet {{ kubelet_version }}"
+  ansible.builtin.command:
+    argv:
+      - echo
+      - "{{ kubelet_version }}"
+  register: kubelet_requested_version
+  when:
+    - kubelet_download_if_missing | bool
+
+- name: "Download kubelet-{{ kubelet_requested_version.stdout }} as {{ dune_daq_bin_path }}/{{ kubelet_ver_bin }}"
+  ansible.builtin.get_url:
+    url: "{{ kubelet_release_baseurl }}/{{ kubelet_requested_version.stdout }}/{{ kubelet_release_tailurl }}"
+    dest: "{{ dune_daq_bin_path | expanduser }}/{{ kubelet_ver_bin }}"
+    mode: "0755"
+  vars:
+    kubelet_ver_bin: "{{ kubelet_binary_name }}-{{ kubelet_requested_version.stdout }}"
+  when:
+    - kubelet_download_if_missing | bool
+    - kubelet_binary_ensure == "present"

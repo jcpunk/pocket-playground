@@ -1,0 +1,12 @@
+---
+kubelet_download_if_missing: true
+kubelet_binary_make_version_link: true
+
+kubelet_version: NULL
+kubelet_binary_ensure: present
+
+kubelet_binary_name: kubelet
+
+kubelet_stable_version_url: https://dl.k8s.io/release/stable.txt
+kubelet_release_baseurl: https://dl.k8s.io/release
+kubelet_release_tailurl: "bin/{{ ansible_system | lower }}/{{ go_arch }}/kubelet"

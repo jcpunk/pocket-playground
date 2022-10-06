@@ -1,0 +1,12 @@
+---
+# should this do something to PATH?
+- name: "Link {{ dune_daq_bin_path }}/{{ kubelet_ver_bin }} to {{ dune_daq_bin_path }}/{{ kubelet_binary_name }}"
+  ansible.builtin.file:
+    src: "{{ dune_daq_bin_path | expanduser }}/{{ kubelet_ver_bin }}"
+    dest: "{{ dune_daq_bin_path | expanduser }}/{{ kubelet_binary_name }}"
+    state: link
+  vars:
+    kubelet_ver_bin: "{{ kubelet_binary_name }}-{{ kubelet_requested_version.stdout }}"
+  when:
+    - kubelet_binary_ensure == "present"
+    - kubelet_binary_make_version_link | bool

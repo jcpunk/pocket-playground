@@ -1,0 +1,11 @@
+---
+metrics_server_helm_repo_name: metrics-server
+metrics_server_helm_chart_name: metrics-server
+metrics_server_helm_release_name: metrics-server
+
+metrics_server_ensure: present
+metrics_server_helm_version: NULL
+metrics_server_create_namespace: "yes"
+metrics_server_namespace: kube-system
+metrics_server_replicas: 2
+metrics_server_service_monitor_enabled: true

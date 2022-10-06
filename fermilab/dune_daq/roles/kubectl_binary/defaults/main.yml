@@ -1,0 +1,13 @@
+---
+kubectl_download_if_missing: true
+kubectl_binary_make_version_link: true
+
+kubectl_version: NULL
+kubectl_binary_ensure: present
+
+kubectl_binary_name: kubectl
+kubectl_home: "{{ '~' | expanduser }}/.kube"
+
+kubectl_stable_version_url: https://dl.k8s.io/release/stable.txt
+kubectl_release_baseurl: https://dl.k8s.io/release
+kubectl_release_tailurl: "bin/{{ ansible_system | lower }}/{{ go_arch }}/kubectl"

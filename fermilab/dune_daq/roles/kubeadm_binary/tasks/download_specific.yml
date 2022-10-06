@@ -1,0 +1,20 @@
+---
+- name: "Note selected version of kubeadm {{ kubeadm_version }}"
+  ansible.builtin.command:
+    argv:
+      - echo
+      - "{{ kubeadm_version }}"
+  register: kubeadm_requested_version
+  when:
+    - kubeadm_download_if_missing | bool
+
+- name: "Download kubeadm-{{ kubeadm_requested_version.stdout }} as {{ dune_daq_bin_path }}/{{ kubeadm_ver_bin }}"
+  ansible.builtin.get_url:
+    url: "{{ kubeadm_release_baseurl }}/{{ kubeadm_requested_version.stdout }}/{{ kubeadm_release_tailurl }}"
+    dest: "{{ dune_daq_bin_path | expanduser }}/{{ kubeadm_ver_bin }}"
+    mode: "0755"
+  vars:
+    kubeadm_ver_bin: "{{ kubeadm_binary_name }}-{{ kubeadm_requested_version.stdout }}"
+  when:
+    - kubeadm_download_if_missing | bool
+    - kubeadm_binary_ensure == "present"

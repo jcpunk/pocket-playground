@@ -1,0 +1,5 @@
+---
+- name: "Install {{ prometheus_node_exporter_helm_package_name }} via helm"
+  ansible.builtin.include_tasks: helm_install.yml
+  when:
+    - prometheus_node_exporter_ensure == "present"

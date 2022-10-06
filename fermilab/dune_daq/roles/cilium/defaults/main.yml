@@ -1,0 +1,50 @@
+---
+cilium_helm_repo_name: cilium
+cilium_helm_chart_name: cilium
+cilium_helm_release_name: cilium
+
+cilium_ensure: present
+cilium_helm_version: 1.12.3
+cilium_create_namespace: "yes"
+cilium_namespace: kube-system
+cilium_installation_values:
+  cluster:
+    name: dunedaq
+  containerRuntime:
+    integration: auto
+  ipam:
+    mode: kubernetes
+  monitor:
+    enabled: true
+  prometheus:
+    enabled: true
+  ipv4:
+    enabled: true
+  ipv6:
+    enabled: false
+  ingressController:
+    enabled: false
+  hubble:
+    enabled: true
+    metrics:
+      enabled: [dns, drop, flow, flows-to-world, icmp]
+    relay:
+      enabled: true
+    ui:
+      enabled: true
+  l7Proxy: false
+  tunnel: vxlan
+  wellKnownIdentities:
+    enabled: true
+  operator:
+    prometheus:
+      enabled: true
+
+cilium_prometheus_values:
+  prometheus:
+    serviceMonitor:
+      enabled: true
+  operator:
+    prometheus:
+      serviceMonitor:
+        enabled: true

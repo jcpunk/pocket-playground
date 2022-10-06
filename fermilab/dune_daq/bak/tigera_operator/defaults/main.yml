@@ -1,0 +1,20 @@
+---
+tigera_operator_helm_repo_name: projectcalico
+tigera_operator_helm_chart_name: tigera-operator
+tigera_operator_helm_release_name: calico
+
+tigera_operator_ensure: present
+tigera_operator_helm_version: NULL
+tigera_operator_create_namespace: "yes"
+tigera_operator_namespace: tigera-operator
+tigera_operator_installation_values:
+  enabled: true
+  kubernetesProvider: ""
+  nonPrivileged: Enabled
+  nodeMetricsPort: 9091
+  typhaMetricsPort: 9093
+
+tigera_operator_set_pod_security_admission: true
+tigera_operator_pod_security_enforce: baseline
+tigera_operator_pod_security_audit: restricted
+tigera_operator_pod_security_warn: restricted

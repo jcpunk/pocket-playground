@@ -1,0 +1,22 @@
+---
+- name: When no specific version of kubelet requested
+  ansible.builtin.include_tasks: download_stable.yml
+  when:
+    - kubelet_version == None
+
+- name: When a specific version of kubelet requested
+  ansible.builtin.include_tasks: download_specific.yml
+  when:
+    - kubelet_version != None
+
+- name: "Provide {{ kubelet_binary_name }} link"
+  ansible.builtin.include_tasks: make_nover_link.yml
+  when:
+    - kubelet_binary_ensure == "present"
+    - kubelet_binary_make_version_link | bool
+
+- name: Remove kubelet when requested
+  ansible.builtin.include_tasks: download_stable.yml
+  when:
+    - kubelet_binary_ensure != "present"
+# https://github.com/kubernetes/release/blob/master/cmd/kubepkg/templates/latest/rpm/kubelet/kubelet.service

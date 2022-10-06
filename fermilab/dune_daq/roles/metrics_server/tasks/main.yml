@@ -1,0 +1,5 @@
+---
+- name: "Install {{ metrics_server_helm_release_name }} via helm"
+  ansible.builtin.include_tasks: helm_install.yml
+  when:
+    - metrics_server_ensure == "present"

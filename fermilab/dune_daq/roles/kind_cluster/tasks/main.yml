@@ -1,0 +1,21 @@
+---
+- name: "Build kind config for {{ kind_cluster_name }}"
+  ansible.builtin.include_tasks: write_kind_cluster_config.yml
+  when:
+    - kind_cluster_write_config | bool
+
+- name: "Build kind cluster for {{ kind_cluster_name }}"
+  ansible.builtin.include_tasks: create_kind_cluster.yml
+  when:
+    - kind_cluster_ensure == "present"
+
+- name: "Remove kind cluster for {{ kind_cluster_name }}"
+  ansible.builtin.include_tasks: remove_kind_cluster.yml
+  when:
+    - kind_cluster_ensure != "present"
+
+- name: "Remove kind cluster config for {{ kind_cluster_name }}"
+  ansible.builtin.include_tasks: remove_kind_cluster_config.yml
+  when:
+    - kind_cluster_ensure != "present"
+    - not (kind_cluster_write_config | bool)

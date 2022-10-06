@@ -1,0 +1,12 @@
+---
+- name: Install any missing os packages
+  ansible.builtin.include_tasks: packages.yml
+
+- name: Install any missing python modules
+  ansible.builtin.include_tasks: pip.yml
+
+- name: Make required directories
+  ansible.builtin.include_tasks: mkdirs.yml
+
+- name: Setup BASH for pocket
+  ansible.builtin.include_tasks: bash.yml

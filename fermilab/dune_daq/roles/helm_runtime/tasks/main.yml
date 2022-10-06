@@ -1,0 +1,7 @@
+---
+# fermilab.dune_daq.helm_plugins will pull in the helm binary as a dependency
+- name: Setup helm plugins
+  ansible.builtin.include_role:
+    name: fermilab.dune_daq.helm_plugins
+    public: true
+    allow_duplicates: false
