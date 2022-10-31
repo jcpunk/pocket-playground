@@ -3,7 +3,7 @@ apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 name: {{ kind_cluster_name }}
 networking:
-  kubeProxyMode: "ipvs"
+  kubeProxyMode: ipvs
   ipFamily: {{ kind_cluster_ipfamily }}
 {% if kind_cluster_pod_subnet is defined and kind_cluster_pod_subnet|length %}
   podSubnet: {{ kind_cluster_pod_subnet }}
@@ -15,7 +15,7 @@ networking:
 
   # WARNING: It is _strongly_ recommended that you keep this the default
   # (127.0.0.1) for security reasons. However it is possible to change this.
-  apiServerAddress: "127.0.0.1"
+  apiServerAddress: 127.0.0.1
 kubeadmConfigPatches:
   - |
     apiVersion: kubelet.config.k8s.io/v1beta1
@@ -44,8 +44,8 @@ nodes:
         # ipvs + strictARP is needed for MetalLB
         apiVersion: kubeadm.k8s.io/v1beta3
         kind: KubeProxyConfiguration
-        metricsBindAddress: "0.0.0.0"
-        mode: "ipvs"
+        metricsBindAddress: 0.0.0.0
+        mode: ipvs
         ipvs:
           strictARP: true
       - |
@@ -54,14 +54,14 @@ nodes:
         kind: ClusterConfiguration
         controllerManager:
           extraArgs:
-            bind-address: "0.0.0.0"
+            bind-address: 0.0.0.0
         etcd:
           local:
             extraArgs:
               listen-metrics-urls: http://0.0.0.0:2381
         scheduler:
           extraArgs:
-            bind-address: "0.0.0.0"
+            bind-address: 0.0.0.0
 {% if loop.first %}
 {% if kind_cluster_portmappings | length > 0 %}
       - |
