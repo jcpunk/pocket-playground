@@ -17,54 +17,52 @@ networking:
   # (127.0.0.1) for security reasons. However it is possible to change this.
   apiServerAddress: 127.0.0.1
 kubeadmConfigPatches:
-  - |
-    apiVersion: kubelet.config.k8s.io/v1beta1
-    kind: KubeletConfiguration
-    ProtectKernelDefaults: true
-    serverTLSBootstrap: true
-    rotateCertificates: true
-    failSwapOn: false
-  - |
-    # enable-aggregator-routing required for metrics
-    # enable-bootstrap-token-auth required for TLS Bootstrap
-    apiVersion: kubeadm.k8s.io/v1beta3
-    kind: ClusterConfiguration
-    clusterName: {{ kind_cluster_name }}
-    apiServer:
+- |
+  apiVersion: kubelet.config.k8s.io/v1beta1
+  kind: KubeletConfiguration
+  ProtectKernelDefaults: true
+  serverTLSBootstrap: true
+  rotateCertificates: true
+  failSwapOn: false
+- |
+  # enable-aggregator-routing required for metrics
+  # enable-bootstrap-token-auth required for TLS Bootstrap
+  apiVersion: kubeadm.k8s.io/v1beta3
+  kind: ClusterConfiguration
+  clusterName: {{ kind_cluster_name }}
+  apiServer:
+    extraArgs:
+      enable-aggregator-routing: "true"
+      enable-bootstrap-token-auth: "true"
+- |-
+  kind: ClusterConfiguration
+  # configure controller-manager bind address
+  controllerManager:
+    extraArgs:
+      bind-address: 0.0.0.0
+  # configure etcd metrics listen address
+  etcd:
+    local:
       extraArgs:
-        enable-aggregator-routing: "true"
-        enable-bootstrap-token-auth: "true"
-  - |
-    # WARNING: the metrics endpoint can expose private information
-    # ipvs + strictARP is needed for MetalLB
-    apiVersion: kubeadm.k8s.io/v1beta3
-    kind: KubeProxyConfiguration
-    metricsBindAddress: 0.0.0.0
-    mode: ipvs
-    ipvs:
-      strictARP: true
-  - |
-    # WARNING: these endpoints can expose private information
-    apiVersion: kubeadm.k8s.io/v1beta3
-    kind: ClusterConfiguration
-    controllerManager:
-      extraArgs:
-        bind-address: 0.0.0.0
-    etcd:
-      local:
-        extraArgs:
-          listen-metrics-urls: http://0.0.0.0:2381
-    scheduler:
-      extraArgs:
-        bind-address: 0.0.0.0
-
+        listen-metrics-urls: http://0.0.0.0:2381
+  # configure scheduler bind address
+  scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0
+- |-
+  kind: KubeProxyConfiguration
+  # configure proxy metrics bind address
+  metricsBindAddress: 0.0.0.0
+  mode: ipvs
+  ipvs:
+    strictARP: true
 nodes:
 {% for control in range(0, kind_control_planes) %}
   - role: control-plane
     image: kindest/node:{{ kind_node_version }}
 {% if loop.first %}
-    kubeadmConfigPatches:
 {% if kind_cluster_portmappings | length > 0 %}
+    kubeadmConfigPatches:
       - |
         apiVersion: kubeadm.k8s.io/v1beta3
         kind: InitConfiguration
