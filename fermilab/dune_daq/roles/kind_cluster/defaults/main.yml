@@ -21,9 +21,6 @@ kind_cluster_ensure: present
 kind_load_docker_images:
   - "docker.io/grafana/grafana:9.2.2"
   - "docker.io/kubernetesui/dashboard:v2.7.0"
-  - "docker.io/kindest/local-path-helper:v20220607-9a4d8d2a"
-  - "docker.io/kindest/local-path-provisioner:v0.0.22-kind.0"
-  - "docker.io/kindest/kindnetd:v20221004-44d545d1"
   - "docker.io/kubernetesui/metrics-scraper:v1.0.8"
   - "quay.io/cilium/cilium:v1.12.3"
   - "quay.io/cilium/operator-generic:v1.12.3"
