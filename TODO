@@ -31,6 +31,27 @@ vnc desktop?
 https://artifacthub.io/packages/olm/community-operators/community-kubevirt-hyperconverged
 https://artifacthub.io/packages/krew/krew-index/virt
 
+https://knative.dev/docs/install/
+https://artifacthub.io/packages/olm/community-operators/knative-operator
+
+https://artifacthub.io/packages/olm/community-operators/elastic-cloud-eck
+
+https://artifacthub.io/packages/olm/community-operators/rook-ceph
+
+https://artifacthub.io/packages/olm/community-operators/etcd
+
+https://artifacthub.io/packages/olm/community-operators/shipwright-operator
+
+https://artifacthub.io/packages/olm/community-operators/snapscheduler
+
+https://open-cluster-management.io/
+
+https://artifacthub.io/packages/olm/community-operators/dynatrace-operator
+
+https://artifacthub.io/packages/olm/community-operators/metallb-operator
+
+https://artifacthub.io/packages/helm/harbor/harbor
+
 https://github.com/cilium/cilium/blob/master/examples/kubernetes/addons/prometheus/monitoring-example.yaml # has a dashboard via configmap
 
 roles for https://github.com/iovisor/kubectl-trace
