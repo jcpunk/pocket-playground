@@ -39,25 +39,23 @@ nodes:
             enable-bootstrap-token-auth: "true"
       - |
         # WARNING: the metrics endpoint can expose private information
-        # the default of 127.0.0.1 is secure, but harder to monitor.
         # ipvs + strictARP is needed for MetalLB
         apiVersion: kubeadm.k8s.io/v1beta3
         kind: KubeProxyConfiguration
-        metricsBindAddress: "127.0.0.1"
+        metricsBindAddress: "0.0.0.0"
         mode: "ipvs"
         ipvs:
           strictARP: true
       - |
         # WARNING: these endpoints can expose private information
-        # the default of 127.0.0.1 is secure, but harder to monitor.
         apiVersion: kubeadm.k8s.io/v1beta3
         kind: ClusterConfiguration
         controllerManager:
           extraArgs:
-            bind-address: "127.0.0.1"
+            bind-address: "0.0.0.0"
         scheduler:
           extraArgs:
-            bind-address: "127.0.0.1"
+            bind-address: "0.0.0.0"
 {% if loop.first %}
 {% if kind_cluster_portmappings | length > 0 %}
       - |
