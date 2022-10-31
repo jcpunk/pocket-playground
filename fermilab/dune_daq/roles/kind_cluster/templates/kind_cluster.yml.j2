@@ -53,6 +53,10 @@ nodes:
         controllerManager:
           extraArgs:
             bind-address: "0.0.0.0"
+        etcd:
+          local:
+            extraArgs:
+              listen-metrics-urls: http://0.0.0.0:2379
         scheduler:
           extraArgs:
             bind-address: "0.0.0.0"
