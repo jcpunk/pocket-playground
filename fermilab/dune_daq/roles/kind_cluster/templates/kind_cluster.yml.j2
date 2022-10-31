@@ -24,45 +24,46 @@ kubeadmConfigPatches:
     serverTLSBootstrap: true
     rotateCertificates: true
     failSwapOn: false
+  - |
+    # enable-aggregator-routing required for metrics
+    # enable-bootstrap-token-auth required for TLS Bootstrap
+    apiVersion: kubeadm.k8s.io/v1beta3
+    kind: ClusterConfiguration
+    clusterName: {{ kind_cluster_name }}
+    apiServer:
+      extraArgs:
+        enable-aggregator-routing: "true"
+        enable-bootstrap-token-auth: "true"
+  - |
+    # WARNING: the metrics endpoint can expose private information
+    # ipvs + strictARP is needed for MetalLB
+    apiVersion: kubeadm.k8s.io/v1beta3
+    kind: KubeProxyConfiguration
+    metricsBindAddress: 0.0.0.0
+    mode: ipvs
+    ipvs:
+      strictARP: true
+  - |
+    # WARNING: these endpoints can expose private information
+    apiVersion: kubeadm.k8s.io/v1beta3
+    kind: ClusterConfiguration
+    controllerManager:
+      extraArgs:
+        bind-address: 0.0.0.0
+    etcd:
+      local:
+        extraArgs:
+          listen-metrics-urls: http://0.0.0.0:2381
+    scheduler:
+      extraArgs:
+        bind-address: 0.0.0.0
+
 nodes:
 {% for control in range(0, kind_control_planes) %}
   - role: control-plane
     image: kindest/node:{{ kind_node_version }}
-    kubeadmConfigPatches:
-      - |
-        # enable-aggregator-routing required for metrics
-        # enable-bootstrap-token-auth required for TLS Bootstrap
-        apiVersion: kubeadm.k8s.io/v1beta3
-        kind: ClusterConfiguration
-        clusterName: {{ kind_cluster_name }}
-        apiServer:
-          extraArgs:
-            enable-aggregator-routing: "true"
-            enable-bootstrap-token-auth: "true"
-      - |
-        # WARNING: the metrics endpoint can expose private information
-        # ipvs + strictARP is needed for MetalLB
-        apiVersion: kubeadm.k8s.io/v1beta3
-        kind: KubeProxyConfiguration
-        metricsBindAddress: 0.0.0.0
-        mode: ipvs
-        ipvs:
-          strictARP: true
-      - |
-        # WARNING: these endpoints can expose private information
-        apiVersion: kubeadm.k8s.io/v1beta3
-        kind: ClusterConfiguration
-        controllerManager:
-          extraArgs:
-            bind-address: 0.0.0.0
-        etcd:
-          local:
-            extraArgs:
-              listen-metrics-urls: http://0.0.0.0:2381
-        scheduler:
-          extraArgs:
-            bind-address: 0.0.0.0
 {% if loop.first %}
+    kubeadmConfigPatches:
 {% if kind_cluster_portmappings | length > 0 %}
       - |
         apiVersion: kubeadm.k8s.io/v1beta3
