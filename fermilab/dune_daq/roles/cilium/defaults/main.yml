@@ -16,8 +16,6 @@ cilium_installation_values:
     mode: kubernetes
   monitor:
     enabled: true
-  prometheus:
-    enabled: true
   ipv4:
     enabled: true
   ipv6:
@@ -35,6 +33,8 @@ cilium_installation_values:
   l7Proxy: true
   tunnel: vxlan
   wellKnownIdentities:
+    enabled: true
+  prometheus:
     enabled: true
   operator:
     prometheus:
