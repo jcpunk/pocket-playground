@@ -28,6 +28,8 @@ kubectl contexts
 
 vnc desktop?
 
+network policy for default charts
+
 https://artifacthub.io/packages/olm/community-operators/community-kubevirt-hyperconverged
 https://artifacthub.io/packages/krew/krew-index/virt
 
