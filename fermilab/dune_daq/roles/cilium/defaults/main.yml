@@ -44,6 +44,10 @@ cilium_prometheus_values:
   prometheus:
     serviceMonitor:
       enabled: true
+  hubble:
+    metrics:
+      serviceMonitor:
+        enabled: true
   operator:
     prometheus:
       serviceMonitor:
