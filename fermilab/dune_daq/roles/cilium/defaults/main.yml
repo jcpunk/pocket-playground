@@ -32,7 +32,7 @@ cilium_installation_values:
       enabled: true
     ui:
       enabled: true
-  l7Proxy: false
+  l7Proxy: true
   tunnel: vxlan
   wellKnownIdentities:
     enabled: true
