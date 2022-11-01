@@ -27,6 +27,7 @@ kubeadmConfigPatches:
 - |
   # enable-aggregator-routing required for metrics
   # enable-bootstrap-token-auth required for TLS Bootstrap
+  # authorization-mode "Node,RBAC" permits the node cert to do things to the node
   apiVersion: kubeadm.k8s.io/v1beta3
   kind: ClusterConfiguration
   clusterName: {{ kind_cluster_name }}
@@ -34,6 +35,7 @@ kubeadmConfigPatches:
     extraArgs:
       enable-aggregator-routing: "true"
       enable-bootstrap-token-auth: "true"
+      authorization-mode: "Node,RBAC"
 - |
   # ipvs and strictARP are required for MetalLB
   kind: KubeProxyConfiguration
