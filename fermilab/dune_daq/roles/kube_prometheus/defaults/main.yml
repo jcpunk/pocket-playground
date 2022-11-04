@@ -8,7 +8,6 @@ kube_prometheus_helm_version: NULL
 kube_prometheus_create_namespace: "yes"
 kube_prometheus_namespace: monitoring
 
-kube_prometheus_pretty_service_names: true
 kube_prometheus_grafana_password: admin
 
 kube_prometheus_set_pod_security_admission: true
