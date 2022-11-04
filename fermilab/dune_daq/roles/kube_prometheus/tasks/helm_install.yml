@@ -17,20 +17,20 @@
     create_namespace: "{{ kube_prometheus_create_namespace }}"
     state: present
     values:
-      prometheus:
-        prometheusSpec:
-          podMonitorNamespaceSelector:
-            any: true
-        ruleNamespaceSelector:
-          any: true
-        serviceMonitorNamespaceSelector:
-          any: true
-        probeNamespaceSelector:
-          any: true
-      alertmanager:
-        alertmanagerSpec:
-          alertmanagerConfigNamespaceSelector:
-            any: true
       grafana:
         adminPassword: "{{ kube_prometheus_grafana_password }}"
+  #      prometheus:
+  #        prometheusSpec:
+  #          podMonitorNamespaceSelector:
+  #            any: true
+  #        ruleNamespaceSelector:
+  #          any: true
+  #        serviceMonitorNamespaceSelector:
+  #          any: true
+  #        probeNamespaceSelector:
+  #          any: true
+  #      alertmanager:
+  #        alertmanagerSpec:
+  #          alertmanagerConfigNamespaceSelector:
+  #            any: true
   notify: prometheus installed
