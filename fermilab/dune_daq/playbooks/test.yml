@@ -4,6 +4,9 @@
     - localhost
   gather_facts: true
 
+  vars:
+    dune_daq_conf_path: /tmp/dune_daq_conf
+
   tasks:
     - name: Setup kind
       ansible.builtin.import_role:
