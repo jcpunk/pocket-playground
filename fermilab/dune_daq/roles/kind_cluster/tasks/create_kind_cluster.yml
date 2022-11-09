@@ -3,6 +3,7 @@
   ansible.builtin.package:
     name: "{{ kind_container_type_package_name }}"
   when: ansible_system == "Linux"
+  become: true
 
 - name: Start our outer layer service
   ansible.builtin.service:
@@ -10,6 +11,7 @@
     enabled: true
     state: started
   when: ansible_system == "Linux"
+  become: true
 
 - name: "Delete existing KinD Cluster {{ kind_cluster_name }}"
   ansible.builtin.include_tasks: remove_kind_cluster.yml
