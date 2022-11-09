@@ -4,6 +4,8 @@ https://github.com/cilium/tetragon
 
 kubectl audit log??
 
+sonobuoy test layout
+
 sysctl, bash completion
 
 https://github.com/monitoring-mixins/mixtool
@@ -73,3 +75,7 @@ https://docs.ansible.com/ansible/latest/collections/ansible/netcommon/index.html
 https://docs.ansible.com/ansible/latest/collections/ansible/posix/index.html#plugins-in-ansible-posix
 https://docs.ansible.com/ansible/latest/collections/ansible/utils/index.html#plugins-in-ansible-utils
 
+
+https://github.com/FairwindsOps/rbac-manager
+
+https://github.com/FairwindsOps/Polaris
