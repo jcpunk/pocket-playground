@@ -1,6 +1,7 @@
 ---
 - hosts:
     - all
+    - localhost
   gather_facts: true
 
   tasks:
