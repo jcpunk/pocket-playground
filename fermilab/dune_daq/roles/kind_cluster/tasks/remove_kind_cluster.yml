@@ -18,3 +18,4 @@
       - --force
   when:
     - (kind_cluster_ensure != 'present') or ( kind_cluster_force_create | bool )
+  become: true
