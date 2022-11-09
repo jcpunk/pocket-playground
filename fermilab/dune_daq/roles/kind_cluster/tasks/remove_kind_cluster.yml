@@ -7,7 +7,7 @@
       - clusters
       - "{{ kind_cluster_name }}"
   when:
-    - kind_cluster_ensure != 'present'
+    - (kind_cluster_ensure != 'present') or ( kind_cluster_force_create | bool )
 
 - name: "Remove any dangling docker items"
   ansible.builtin.command:
@@ -17,4 +17,4 @@
       - prune
       - --force
   when:
-    - kind_cluster_ensure != 'present'
+    - (kind_cluster_ensure != 'present') or ( kind_cluster_force_create | bool )

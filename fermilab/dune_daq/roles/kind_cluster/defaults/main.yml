@@ -17,6 +17,7 @@ kind_cluster_write_config: true
 kind_cluster_disable_default_cni: false
 
 kind_cluster_ensure: present
+kind_cluster_force_create: false
 
 kind_load_docker_images:
   - "docker.io/grafana/grafana:9.2.2"

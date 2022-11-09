@@ -11,6 +11,10 @@
     state: started
   when: ansible_system == "Linux"
 
+- name: "Delete existing KinD Cluster {{ kind_cluster_name }}"
+  ansible.builtin.include_tasks: remove_kind_cluster.yml
+  when: kind_cluster_force_create | bool
+
 - name: Check for existing cluster
   ansible.builtin.command:
     argv:
