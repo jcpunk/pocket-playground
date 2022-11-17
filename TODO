@@ -16,7 +16,7 @@ image exports/imports via https://kind.sigs.k8s.io/docs/user/quick-start/#loadin
 
 etcd endpoints 127.0.0.1?
 
-Is cilium a better choice? -> Hubble view?
+Is cilium a better choice? -> Hubble view? enable envoy by default?
 
 https://github.com/ThalesGroup/helm-spray
 
