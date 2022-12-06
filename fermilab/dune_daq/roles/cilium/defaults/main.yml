@@ -16,12 +16,13 @@ cilium_installation_values:
     mode: kubernetes
   monitor:
     enabled: true
+  logSystemLoad: true
   ipv4:
     enabled: true
   ipv6:
     enabled: false
   ingressController:
-    enabled: false
+    enabled: true
   hubble:
     enabled: true
     metrics:
