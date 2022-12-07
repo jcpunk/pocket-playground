@@ -19,22 +19,22 @@
     values:
       grafana:
         adminPassword: "{{ kube_prometheus_grafana_password }}"
-        prometheus:
-          prometheusSpec:
-            podMonitorSelectorNilUsesHelmValues: "{{ kube_prometheus_podmonitor_selector_niluseshelmvalues }}"
-            podMonitorSelector: "{{ kube_prometheus_podmonitor_selector }}"
-            podMonitorNamespaceSelector: "{{ kube_prometheus_podmonitornamespace_selector }}"
-            ruleSelectorNilUsesHelmValues: "{{ kube_prometheus_rule_selector_niluseshelmvalues }}"
-            ruleSelector: "{{ kube_prometheus_rule_selector }}"
-            ruleNamespaceSelector: "{{ kube_prometheus_rulenamespace_selector }}"
-            serviceMonitorSelectorNilUsesHelmValues: "{{ kube_prometheus_servicemonitor_selector_niluseshelmvalues }}"
-            serviceMonitorSelector: "{{ kube_prometheus_servicemonitor_selector }}"
-            serviceMonitorNamespaceSelector: "{{ kube_prometheus_servicemonitornamespace_selector }}"
-            probeSelectorNilUsesHelmValues: "{{ kube_prometheus_probe_selector_niluseshelmvalues }}"
-            probeSelector: "{{ kube_prometheus_probe_selector }}"
-            probeNamespaceSelector: "{{ kube_prometheus_probenamespace_selector }}"
-        alertmanager:
-          alertmanagerSpec:
-            alertmanagerConfigSelector: "{{ kube_prometheus_alertmanagerconfig_selector }}"
-            alertmanagerConfigNamespaceSelector: "{{ kube_prometheus_alertmanagerconfignamespace_selector }}"
+      prometheus:
+        prometheusSpec:
+          podMonitorSelectorNilUsesHelmValues: "{{ kube_prometheus_podmonitor_selector_niluseshelmvalues }}"
+          podMonitorSelector: "{{ kube_prometheus_podmonitor_selector }}"
+          podMonitorNamespaceSelector: "{{ kube_prometheus_podmonitornamespace_selector }}"
+          ruleSelectorNilUsesHelmValues: "{{ kube_prometheus_rule_selector_niluseshelmvalues }}"
+          ruleSelector: "{{ kube_prometheus_rule_selector }}"
+          ruleNamespaceSelector: "{{ kube_prometheus_rulenamespace_selector }}"
+          serviceMonitorSelectorNilUsesHelmValues: "{{ kube_prometheus_servicemonitor_selector_niluseshelmvalues }}"
+          serviceMonitorSelector: "{{ kube_prometheus_servicemonitor_selector }}"
+          serviceMonitorNamespaceSelector: "{{ kube_prometheus_servicemonitornamespace_selector }}"
+          probeSelectorNilUsesHelmValues: "{{ kube_prometheus_probe_selector_niluseshelmvalues }}"
+          probeSelector: "{{ kube_prometheus_probe_selector }}"
+          probeNamespaceSelector: "{{ kube_prometheus_probenamespace_selector }}"
+      alertmanager:
+        alertmanagerSpec:
+          alertmanagerConfigSelector: "{{ kube_prometheus_alertmanagerconfig_selector }}"
+          alertmanagerConfigNamespaceSelector: "{{ kube_prometheus_alertmanagerconfignamespace_selector }}"
   notify: prometheus installed

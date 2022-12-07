@@ -1,7 +1,7 @@
 ---
 kube_prometheus_helm_repo_name: prometheus-community
 kube_prometheus_helm_chart_name: kube-prometheus-stack
-kube_prometheus_helm_release_name: kube-prometheus-stack
+kube_prometheus_helm_release_name: prometheus
 
 kube_prometheus_ensure: present
 kube_prometheus_helm_version: NULL
@@ -11,7 +11,7 @@ kube_prometheus_namespace: monitoring
 kube_prometheus_grafana_password: admin
 
 kube_prometheus_general_selector:
-  release: "kube-prometheus-stack"
+  release: "{{ kube_prometheus_helm_release_name }}"
 
 kube_prometheus_rule_selector_niluseshelmvalues: true
 kube_prometheus_rule_selector:
