@@ -43,6 +43,7 @@
       ansible.builtin.import_role:
         name: fermilab.dune_daq.kube_prometheus
       vars:
+        kube_prometheus_helm_release_name: prometheus-all
         kube_prometheus_rule_selector_niluseshelmvalues: false
         kube_prometheus_rule_selector: {}
         kube_prometheus_servicemonitor_selector_niluseshelmvalues: false
