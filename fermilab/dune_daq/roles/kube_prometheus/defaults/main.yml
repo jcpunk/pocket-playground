@@ -10,6 +10,17 @@ kube_prometheus_namespace: monitoring
 
 kube_prometheus_grafana_password: admin
 
+# If you set the "selector" series values
+# then any resource you want prometheus to monitor
+# must have a matching label.
+#
+# if you set the 'nil uses helm' values to false
+# and the selectors to `{}` then prometheus just
+# grabs everything it knows about.
+#
+# So, do you want one big prometheus, a few little
+# ones, maybe some federation? You pick.
+
 kube_prometheus_general_selector:
   release: "{{ kube_prometheus_helm_release_name }}"
 
