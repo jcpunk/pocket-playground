@@ -19,18 +19,18 @@
     values:
       grafana:
         adminPassword: "{{ kube_prometheus_grafana_password }}"
-  #      prometheus:
-  #        prometheusSpec:
-  #          podMonitorNamespaceSelector:
-  #            any: true
-  #        ruleNamespaceSelector:
-  #          any: true
-  #        serviceMonitorNamespaceSelector:
-  #          any: true
-  #        probeNamespaceSelector:
-  #          any: true
-  #      alertmanager:
-  #        alertmanagerSpec:
-  #          alertmanagerConfigNamespaceSelector:
-  #            any: true
+        prometheus:
+          prometheusSpec:
+            podMonitorSelector: "{{ kube_prometheus_podmonitor_selector }}"
+            podMonitorNamespaceSelector: "{{ kube_prometheus_podmonitornamespace_selector }}"
+            ruleSelector: "{{ kube_prometheus_rule_selector }}"
+            ruleNamespaceSelector: "{{ kube_prometheus_rulenamespace_selector }}"
+            serviceMonitorSelector: "{{ kube_prometheus_servicemonitor_selector }}"
+            serviceMonitorNamespaceSelector: "{{ kube_prometheus_servicemonitornamespace_selector }}"
+            probeSelector: "{{ kube_prometheus_probe_selector }}"
+            probeNamespaceSelector: "{{ kube_prometheus_probenamespace_selector }}"
+        alertmanager:
+          alertmanagerSpec:
+            alertmanagerConfigSelector: "{{ kube_prometheus_alertmanagerconfig_selector }}"
+            alertmanagerConfigNamespaceSelector: "{{ kube_prometheus_alertmanagerconfignamespace_selector }}"
   notify: prometheus installed
