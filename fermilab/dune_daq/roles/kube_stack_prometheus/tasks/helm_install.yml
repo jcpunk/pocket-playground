@@ -21,6 +21,7 @@
         enabled: false
       grafana:
         enabled: false
+        forceDeployDashboards: true
       prometheus:
         enabled: false
   notify: prometheus installed
