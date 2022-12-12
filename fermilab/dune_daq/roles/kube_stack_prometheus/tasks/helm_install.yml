@@ -17,26 +17,12 @@
     create_namespace: "{{ kube_stack_prometheus_create_namespace }}"
     state: present
     values:
-      grafana:
-        adminPassword: "{{ kube_stack_prometheus_grafana_password }}"
-      prometheus:
-        prometheusSpec:
-          podMonitorSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_podmonitor_selector_niluseshelmvalues }}"
-          podMonitorSelector: "{{ kube_stack_prometheus_podmonitor_selector }}"
-          podMonitorNamespaceSelector: "{{ kube_stack_prometheus_podmonitornamespace_selector }}"
-          ruleSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_rule_selector_niluseshelmvalues }}"
-          ruleSelector: "{{ kube_stack_prometheus_rule_selector }}"
-          ruleNamespaceSelector: "{{ kube_stack_prometheus_rulenamespace_selector }}"
-          serviceMonitorSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_servicemonitor_selector_niluseshelmvalues }}"
-          serviceMonitorSelector: "{{ kube_stack_prometheus_servicemonitor_selector }}"
-          serviceMonitorNamespaceSelector: "{{ kube_stack_prometheus_servicemonitornamespace_selector }}"
-          probeSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_probe_selector_niluseshelmvalues }}"
-          probeSelector: "{{ kube_stack_prometheus_probe_selector }}"
-          probeNamespaceSelector: "{{ kube_stack_prometheus_probenamespace_selector }}"
       alertmanager:
-        alertmanagerSpec:
-          alertmanagerConfigSelector: "{{ kube_stack_prometheus_alertmanagerconfig_selector }}"
-          alertmanagerConfigNamespaceSelector: "{{ kube_stack_prometheus_alertmanagerconfignamespace_selector }}"
+        enabled: false
+      grafana:
+        enabled: false
+      prometheus:
+        enabled: false
   notify: prometheus installed
 
 - name: set Pod Security Admission
