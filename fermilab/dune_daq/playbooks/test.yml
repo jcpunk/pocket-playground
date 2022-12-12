@@ -43,16 +43,7 @@
       ansible.builtin.import_role:
         name: fermilab.dune_daq.kube_stack_prometheus
       vars:
-        kube_stack_prometheus_pretty_service_names: true
-        kube_stack_prometheus_helm_release_name: all-services
-        kube_stack_prometheus_rule_selector_niluseshelmvalues: false
-        kube_stack_prometheus_rule_selector: {}
-        kube_stack_prometheus_servicemonitor_selector_niluseshelmvalues: false
-        kube_stack_prometheus_servicemonitor_selector: {}
-        kube_stack_prometheus_podmonitor_selector_niluseshelmvalues: false
-        kube_stack_prometheus_podmonitor_selector: {}
-        kube_stack_prometheus_probe_selector_niluseshelmvalues: false
-        kube_stack_prometheus_probe_selector: {}
+        kube_stack_prometheus_helm_release_name: default
 
     - name: setup dashboard
       ansible.builtin.import_role:
