@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ kube_prometheus_namespace }}
+  name: {{ kube_stack_prometheus_namespace }}
   labels:
-{% if kube_prometheus_pod_security_enforce is defined and kube_prometheus_pod_security_enforce|length %}
-    pod-security.kubernetes.io/enforce: {{ kube_prometheus_pod_security_enforce }}
+{% if kube_stack_prometheus_pod_security_enforce is defined and kube_stack_prometheus_pod_security_enforce|length %}
+    pod-security.kubernetes.io/enforce: {{ kube_stack_prometheus_pod_security_enforce }}
 {% endif %}
-{% if kube_prometheus_pod_security_audit is defined and kube_prometheus_pod_security_audit|length %}
-    pod-security.kubernetes.io/audit: {{ kube_prometheus_pod_security_audit }}
+{% if kube_stack_prometheus_pod_security_audit is defined and kube_stack_prometheus_pod_security_audit|length %}
+    pod-security.kubernetes.io/audit: {{ kube_stack_prometheus_pod_security_audit }}
 {% endif %}
-{% if kube_prometheus_pod_security_warn is defined and kube_prometheus_pod_security_warn|length %}
-    pod-security.kubernetes.io/warn: {{ kube_prometheus_pod_security_warn }}
+{% if kube_stack_prometheus_pod_security_warn is defined and kube_stack_prometheus_pod_security_warn|length %}
+    pod-security.kubernetes.io/warn: {{ kube_stack_prometheus_pod_security_warn }}
 {% endif %}
