@@ -2,12 +2,12 @@
 - name: Write YAML file to create Pod Security Admission settings
   ansible.builtin.template:
     src: pod-security-admission.yml.j2
-    dest: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/pod-security-admission.yml"
+    dest: "{{ dune_daq_conf_path | expanduser }}/kube_stack_prometheus/pod-security-admission.yml"
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}"
     mode: "0644"
 
-- name: "Enable Pod Security Admission for {{ kube_prometheus_namespace }}"
+- name: "Enable Pod Security Admission for {{ kube_stack_prometheus_namespace }}"
   kubernetes.core.k8s:
     state: present
-    src: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/pod-security-admission.yml"
+    src: "{{ dune_daq_conf_path | expanduser }}/kube_stack_prometheus/pod-security-admission.yml"

@@ -1,42 +1,42 @@
 ---
-- name: Make directory to store kube_prometheus files
+- name: Make directory to store kube_stack_prometheus files
   ansible.builtin.file:
-    path: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus"
+    path: "{{ dune_daq_conf_path | expanduser }}/kube_stack_prometheus"
     state: directory
     mode: "0755"
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}"
 
-- name: "Install helm package {{ kube_prometheus_helm_repo_name }}/{{ kube_prometheus_helm_chart_name }} {{ kube_prometheus_helm_release_name }}"
+- name: "Install helm package {{ kube_stack_prometheus_helm_repo_name }}/{{ kube_stack_prometheus_helm_chart_name }} {{ kube_stack_prometheus_helm_release_name }}"
   kubernetes.core.helm:
     binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
-    name: "{{ kube_prometheus_helm_release_name }}"
-    chart_ref: "{{ kube_prometheus_helm_repo_name }}/{{ kube_prometheus_helm_chart_name }}"
-    namespace: "{{ kube_prometheus_namespace }}"
-    chart_version: "{{ kube_prometheus_helm_version }}"
-    create_namespace: "{{ kube_prometheus_create_namespace }}"
+    name: "{{ kube_stack_prometheus_helm_release_name }}"
+    chart_ref: "{{ kube_stack_prometheus_helm_repo_name }}/{{ kube_stack_prometheus_helm_chart_name }}"
+    namespace: "{{ kube_stack_prometheus_namespace }}"
+    chart_version: "{{ kube_stack_prometheus_helm_version }}"
+    create_namespace: "{{ kube_stack_prometheus_create_namespace }}"
     state: present
     values:
       grafana:
-        adminPassword: "{{ kube_prometheus_grafana_password }}"
+        adminPassword: "{{ kube_stack_prometheus_grafana_password }}"
       prometheus:
         prometheusSpec:
-          podMonitorSelectorNilUsesHelmValues: "{{ kube_prometheus_podmonitor_selector_niluseshelmvalues }}"
-          podMonitorSelector: "{{ kube_prometheus_podmonitor_selector }}"
-          podMonitorNamespaceSelector: "{{ kube_prometheus_podmonitornamespace_selector }}"
-          ruleSelectorNilUsesHelmValues: "{{ kube_prometheus_rule_selector_niluseshelmvalues }}"
-          ruleSelector: "{{ kube_prometheus_rule_selector }}"
-          ruleNamespaceSelector: "{{ kube_prometheus_rulenamespace_selector }}"
-          serviceMonitorSelectorNilUsesHelmValues: "{{ kube_prometheus_servicemonitor_selector_niluseshelmvalues }}"
-          serviceMonitorSelector: "{{ kube_prometheus_servicemonitor_selector }}"
-          serviceMonitorNamespaceSelector: "{{ kube_prometheus_servicemonitornamespace_selector }}"
-          probeSelectorNilUsesHelmValues: "{{ kube_prometheus_probe_selector_niluseshelmvalues }}"
-          probeSelector: "{{ kube_prometheus_probe_selector }}"
-          probeNamespaceSelector: "{{ kube_prometheus_probenamespace_selector }}"
+          podMonitorSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_podmonitor_selector_niluseshelmvalues }}"
+          podMonitorSelector: "{{ kube_stack_prometheus_podmonitor_selector }}"
+          podMonitorNamespaceSelector: "{{ kube_stack_prometheus_podmonitornamespace_selector }}"
+          ruleSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_rule_selector_niluseshelmvalues }}"
+          ruleSelector: "{{ kube_stack_prometheus_rule_selector }}"
+          ruleNamespaceSelector: "{{ kube_stack_prometheus_rulenamespace_selector }}"
+          serviceMonitorSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_servicemonitor_selector_niluseshelmvalues }}"
+          serviceMonitorSelector: "{{ kube_stack_prometheus_servicemonitor_selector }}"
+          serviceMonitorNamespaceSelector: "{{ kube_stack_prometheus_servicemonitornamespace_selector }}"
+          probeSelectorNilUsesHelmValues: "{{ kube_stack_prometheus_probe_selector_niluseshelmvalues }}"
+          probeSelector: "{{ kube_stack_prometheus_probe_selector }}"
+          probeNamespaceSelector: "{{ kube_stack_prometheus_probenamespace_selector }}"
       alertmanager:
         alertmanagerSpec:
-          alertmanagerConfigSelector: "{{ kube_prometheus_alertmanagerconfig_selector }}"
-          alertmanagerConfigNamespaceSelector: "{{ kube_prometheus_alertmanagerconfignamespace_selector }}"
+          alertmanagerConfigSelector: "{{ kube_stack_prometheus_alertmanagerconfig_selector }}"
+          alertmanagerConfigNamespaceSelector: "{{ kube_stack_prometheus_alertmanagerconfignamespace_selector }}"
   notify: prometheus installed
 
 - name: set Pod Security Admission

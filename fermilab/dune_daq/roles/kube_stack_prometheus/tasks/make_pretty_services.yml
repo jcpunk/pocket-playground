@@ -2,14 +2,14 @@
 - name: Write YAML file to create Prometheus pretty services
   ansible.builtin.template:
     src: prometheus-pretty-services.yml.j2
-    dest: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/prometheus-pretty-services.yml"
+    dest: "{{ dune_daq_conf_path | expanduser }}/kube_stack_prometheus/prometheus-pretty-services.yml"
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}"
     mode: "0644"
   when: false
 
-- name: "Enable Prometheus Pretty Services for {{ kube_prometheus_namespace }}"
+- name: "Enable Prometheus Pretty Services for {{ kube_stack_prometheus_namespace }}"
   kubernetes.core.k8s:
     state: present
-    src: "{{ dune_daq_conf_path | expanduser }}/kube_prometheus/prometheus-pretty-services.yml"
+    src: "{{ dune_daq_conf_path | expanduser }}/kube_stack_prometheus/prometheus-pretty-services.yml"
   when: false

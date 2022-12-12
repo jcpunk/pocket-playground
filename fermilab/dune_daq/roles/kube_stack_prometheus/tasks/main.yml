@@ -1,5 +1,5 @@
 ---
-- name: "Install {{ kube_prometheus_helm_release_name }} via helm"
+- name: "Install {{ kube_stack_prometheus_helm_release_name }} via helm"
   ansible.builtin.include_tasks: helm_install.yml
   when:
-    - kube_prometheus_ensure == "present"
+    - kube_stack_prometheus_ensure == "present"
