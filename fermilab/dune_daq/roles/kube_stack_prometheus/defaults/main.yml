@@ -1,0 +1,56 @@
+---
+kube_stack_prometheus_helm_repo_name: prometheus-community
+kube_stack_prometheus_helm_chart_name: kube-prometheus-stack
+kube_stack_prometheus_helm_release_name: prometheus
+
+kube_stack_prometheus_ensure: present
+kube_stack_prometheus_helm_version: NULL
+kube_stack_prometheus_create_namespace: "yes"
+kube_stack_prometheus_namespace: monitoring
+
+kube_stack_prometheus_grafana_password: admin
+
+# Make a set of "pretty" names for the services
+kube_stack_prometheus_pretty_service_names: false
+
+# If you set the "selector" series values
+# then any resource you want prometheus to monitor
+# must have a matching label.
+#
+# if you set the 'nil uses helm' values to false
+# and the selectors to `{}` then prometheus just
+# grabs everything it knows about.
+#
+# So, do you want one big prometheus, a few little
+# ones, maybe some federation? You pick.
+
+kube_stack_prometheus_general_selector:
+  release: "{{ kube_stack_prometheus_helm_release_name }}"
+
+kube_stack_prometheus_rule_selector_niluseshelmvalues: true
+kube_stack_prometheus_rule_selector:
+  matchLabels: "{{ kube_stack_prometheus_general_selector }}"
+kube_stack_prometheus_rulenamespace_selector: {}
+
+kube_stack_prometheus_servicemonitor_selector_niluseshelmvalues: true
+kube_stack_prometheus_servicemonitor_selector:
+  matchLabels: "{{ kube_stack_prometheus_general_selector }}"
+kube_stack_prometheus_servicemonitornamespace_selector: {}
+
+kube_stack_prometheus_podmonitor_selector_niluseshelmvalues: true
+kube_stack_prometheus_podmonitor_selector:
+  matchLabels: "{{ kube_stack_prometheus_general_selector }}"
+kube_stack_prometheus_podmonitornamespace_selector: {}
+
+kube_stack_prometheus_probe_selector_niluseshelmvalues: true
+kube_stack_prometheus_probe_selector:
+  matchLabels: "{{ kube_stack_prometheus_general_selector }}"
+kube_stack_prometheus_probenamespace_selector: {}
+
+kube_stack_prometheus_alertmanagerconfig_selector: {}
+kube_stack_prometheus_alertmanagerconfignamespace_selector: {}
+
+kube_stack_prometheus_set_pod_security_admission: true
+kube_stack_prometheus_pod_security_enforce: privileged
+kube_stack_prometheus_pod_security_audit: baseline
+kube_stack_prometheus_pod_security_warn: baseline

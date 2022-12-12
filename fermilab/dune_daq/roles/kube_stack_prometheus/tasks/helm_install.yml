@@ -38,3 +38,13 @@
           alertmanagerConfigSelector: "{{ kube_prometheus_alertmanagerconfig_selector }}"
           alertmanagerConfigNamespaceSelector: "{{ kube_prometheus_alertmanagerconfignamespace_selector }}"
   notify: prometheus installed
+
+- name: set Pod Security Admission
+  ansible.builtin.include_tasks: pod_security_admission.yml
+  when:
+    - kube_stack_prometheus_set_pod_security_admission | bool
+
+- name: setup Pretty Services
+  ansible.builtin.include_tasks: make_pretty_services.yml
+  when:
+    - kube_stack_prometheus_pretty_service_names | bool
