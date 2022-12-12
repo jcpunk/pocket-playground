@@ -1,0 +1,19 @@
+---
+- name: "Install helm package {{ cert_manager_helm_repo_name }}/{{ cert_manager_helm_chart_name }} {{ cert_manager_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ cert_manager_helm_release_name }}"
+    chart_ref: "{{ cert_manager_helm_repo_name }}/{{ cert_manager_helm_chart_name }}"
+    namespace: "{{ cert_manager_namespace }}"
+    chart_version: "{{ cert_manager_helm_version }}"
+    create_namespace: "{{ cert_manager_create_namespace }}"
+    state: present
+    values:
+      installCRDs: "{{ cert_manager_installcrds }} | bool"
+      prometheus:
+        servicemonitor:
+          enabled: "{{ cert_manager_service_monitor_enabled | bool }}"
+          labels: "{{ cert_manager_service_monitor_labels }}"
+      serviceAccount:
+        create: true
+      replicas: "{{ cert_manager_replicas }}"

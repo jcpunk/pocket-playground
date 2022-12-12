@@ -1,0 +1,12 @@
+---
+cert_manager_helm_repo_name: jetstack
+cert_manager_helm_chart_name: cert-manager
+cert_manager_helm_release_name: cert-manager
+
+cert_manager_ensure: present
+cert_manager_helm_version: NULL
+cert_manager_create_namespace: "yes"
+cert_manager_namespace: cert-manager
+cert_manager_installcrds: true
+cert_manager_service_monitor_enabled: true
+cert_manager_service_monitor_labels: {}

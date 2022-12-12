@@ -1,0 +1,5 @@
+---
+- name: "Install {{ cert_manager_helm_release_name }} via helm"
+  ansible.builtin.include_tasks: helm_install.yml
+  when:
+    - cert_manager_ensure == "present"

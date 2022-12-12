@@ -1,0 +1,7 @@
+---
+- name: "Uninstall helm package {{ cert_manager_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ cert_manager_helm_release_name }}"
+    namespace: "{{ cert_manager_namespace }}"
+    state: absent
