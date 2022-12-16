@@ -12,6 +12,8 @@ sysctl, bash completion
 
 https://github.com/monitoring-mixins/mixtool
 
+backups -> https://www.youtube.com/watch?v=JyzgS-KKuoo
+
 open telemetry?
 
 image exports/imports via https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster
