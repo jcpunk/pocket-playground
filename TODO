@@ -2,6 +2,8 @@ https://cert-manager.io/docs/configuration/
 
 https://github.com/cilium/tetragon
 
+https://github.com/mittwald/kubernetes-secret-generator
+
 kubectl audit log??
 
 sonobuoy test layout
