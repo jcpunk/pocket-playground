@@ -4,3 +4,4 @@ dependencies:
   - role: fermilab.dune_daq.common_setup
   - role: fermilab.dune_daq.helm_runtime
   - role: fermilab.dune_daq.metrics_server
+  - role: fermilab.dune_daq.prometheus_operator_crds

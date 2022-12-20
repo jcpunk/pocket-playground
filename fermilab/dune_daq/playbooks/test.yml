@@ -35,6 +35,10 @@
       ansible.builtin.import_role:
         name: fermilab.dune_daq.kubernetes_pod_security_defaults
 
+    - name: Load Prometheus Operator CRDs
+      ansible.builtin.import_role:
+        name: fermilab.dune_daq.prometheus_operator_crds
+
     - name: setup cilium
       ansible.builtin.import_role:
         name: fermilab.dune_daq.cilium

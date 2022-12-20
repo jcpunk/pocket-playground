@@ -17,11 +17,3 @@
     create_namespace: "{{ cilium_create_namespace }}"
     state: present
     values: "{{ cilium_installation_values }}"
-
-- name: Make prometheus resources YAML file
-  ansible.builtin.copy:
-    dest: "{{ dune_daq_conf_path | expanduser }}/cilium/prometheus_systemmonitor.yml"
-    content: "{{ cilium_prometheus_values | to_yaml }}"
-    mode: "0644"
-    owner: "{{ ansible_effective_user_id }}"
-    group: "{{ ansible_effective_group_id }}"

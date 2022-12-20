@@ -1,0 +1,9 @@
+---
+prometheus_operator_crds_helm_repo_name: prometheus-community
+prometheus_operator_crds_helm_chart_name: prometheus-operator-crds
+prometheus_operator_crds_helm_release_name: prometheus-operator-crds
+
+prometheus_operator_crds_ensure: present
+prometheus_operator_crds_helm_version: NULL
+prometheus_operator_crds_create_namespace: "yes"
+prometheus_operator_crds_namespace: monitoring

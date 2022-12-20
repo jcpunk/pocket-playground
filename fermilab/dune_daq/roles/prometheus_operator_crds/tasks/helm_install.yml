@@ -1,0 +1,11 @@
+---
+- name: "Install helm package {{ prometheus_operator_crds_helm_repo_name }}/{{ prometheus_operator_crds_helm_chart_name }} {{ prometheus_operator_crds_helm_release_name }}"
+  kubernetes.core.helm:
+    binary_path: "{{ dune_daq_bin_path | expanduser }}/{{ helm_binary_name }}"
+    name: "{{ prometheus_operator_crds_helm_release_name }}"
+    chart_ref: "{{ prometheus_operator_crds_helm_repo_name }}/{{ prometheus_operator_crds_helm_chart_name }}"
+    namespace: "{{ prometheus_operator_crds_namespace }}"
+    chart_version: "{{ prometheus_operator_crds_helm_version }}"
+    create_namespace: "{{ prometheus_operator_crds_create_namespace }}"
+    state: present
+    values: "{{ prometheus_operator_crds_installation_values }}"

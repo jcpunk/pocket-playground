@@ -20,23 +20,17 @@
       metricsScraper:
         enabled: "{{ kubernetes_dashboard_metrics_scraper_enabled }}"
       metrics-server:
-        enabled: false
+        enabled: false # metrics server is a seperate chart
       serviceAccount:
         create: true
       rbac:
         clusterReadOnlyRole: "{{ kubernetes_dashboard_helm_make_ro_role | bool }}"
+      serviceMonitor:
+        enabled: true
       extraArgs:
         - --enable-skip-login
         - "--namespace={{ kubernetes_dashboard_namespace }}"
       pinnedCRDs: []
-
-- name: Make prometheus resources YAML file
-  ansible.builtin.copy:
-    dest: "{{ dune_daq_conf_path | expanduser }}/kubernetes_dashboard/prometheus_systemmonitor.yml"
-    content: "{{ kubernetes_dashboard_prometheus_values | to_yaml }}"
-    mode: "0644"
-    owner: "{{ ansible_effective_user_id }}"
-    group: "{{ ansible_effective_group_id }}"
 
 - name: set Pod Security Admission
   ansible.builtin.include_tasks: pod_security_admission.yml

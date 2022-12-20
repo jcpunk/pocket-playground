@@ -1,0 +1,5 @@
+---
+- name: "Install {{ prometheus_operator_crds_helm_release_name }} via helm"
+  ansible.builtin.include_tasks: helm_install.yml
+  when:
+    - prometheus_operator_crds_ensure == "present"

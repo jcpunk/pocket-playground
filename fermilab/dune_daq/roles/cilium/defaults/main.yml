@@ -27,6 +27,8 @@ cilium_installation_values:
     enabled: true
     metrics:
       enabled: [dns, drop, flow, flows-to-world, icmp]
+      serviceMonitor:
+        enabled: true
     relay:
       enabled: true
     ui:
@@ -37,19 +39,10 @@ cilium_installation_values:
     enabled: true
   prometheus:
     enabled: true
-  operator:
-    prometheus:
-      enabled: true
-
-cilium_prometheus_values:
-  prometheus:
     serviceMonitor:
       enabled: true
-  hubble:
-    metrics:
-      serviceMonitor:
-        enabled: true
   operator:
     prometheus:
+      enabled: true
       serviceMonitor:
         enabled: true
