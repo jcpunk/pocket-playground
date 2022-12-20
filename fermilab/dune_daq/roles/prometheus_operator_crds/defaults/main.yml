@@ -7,3 +7,5 @@ prometheus_operator_crds_ensure: present
 prometheus_operator_crds_helm_version: NULL
 prometheus_operator_crds_create_namespace: "yes"
 prometheus_operator_crds_namespace: monitoring
+
+prometheus_operator_crds_installation_values: {}
