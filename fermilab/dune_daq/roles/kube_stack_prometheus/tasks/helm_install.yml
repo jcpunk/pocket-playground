@@ -24,7 +24,6 @@
         forceDeployDashboards: true
       prometheus:
         enabled: false
-  notify: prometheus installed
 
 - name: set Pod Security Admission
   ansible.builtin.include_tasks: pod_security_admission.yml
