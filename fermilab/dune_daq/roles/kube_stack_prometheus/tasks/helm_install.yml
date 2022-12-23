@@ -22,6 +22,12 @@
       grafana:
         enabled: false
         forceDeployDashboards: true
+        sidecar:
+          dashboards:
+            enabled: true
+            folderAnnotation: k8s-sidecar-target-directory
+            provider:
+              foldersFromFilesStructure: true
       prometheus:
         enabled: false
 
