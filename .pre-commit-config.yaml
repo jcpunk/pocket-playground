@@ -1,11 +1,11 @@
 ---
 repos:
   - repo: "https://github.com/pre-commit/mirrors-prettier"
-    rev: v2.7.1
+    rev: v3.0.0-alpha.4
     hooks:
       - id: prettier
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v6.4.0 # newer versions require newer ansible
+    rev: v6.10.2 # newer versions require newer ansible
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
