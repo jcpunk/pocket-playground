@@ -1,3 +1,5 @@
+node-taints node.Cilium.io/agent-not-ready=true:NoExecute   ??
+
 https://cert-manager.io/docs/configuration/
 
 https://github.com/cilium/tetragon
